@@ -9,7 +9,7 @@ export class UserEntity {
   @Column({ unique: true, length: 15 })
   phone: string;
 
-  @Column({ nullable: true, length: 100 })
+  @Column({ type: 'varchar', nullable: true, length: 100 })
   name: string | null;
 
   @Column({ name: 'avatar_url', nullable: true, type: 'text' })

@@ -6,16 +6,18 @@ import { WalletService } from './wallet.service';
 
 @Injectable()
 export class RazorpayService {
-  private readonly client: Razorpay;
+  private readonly client!: Razorpay;
 
   constructor(
     private readonly config: ConfigService,
     private readonly walletService: WalletService,
   ) {
-    this.client = new Razorpay({
-      key_id: this.config.get<string>('RAZORPAY_KEY_ID')!,
-      key_secret: this.config.get<string>('RAZORPAY_KEY_SECRET')!,
-    });
+    const keyId = this.config.get<string>('RAZORPAY_KEY_ID') ?? '';
+    const keySecret = this.config.get<string>('RAZORPAY_KEY_SECRET') ?? '';
+    // Skip initializing client in dev when keys are not configured
+    if (keyId) {
+      this.client = new Razorpay({ key_id: keyId, key_secret: keySecret });
+    }
   }
 
   async createOrder(amount: number): Promise<{ orderId: string; amount: number; currency: string }> {

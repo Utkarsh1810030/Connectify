@@ -13,7 +13,7 @@ export class SessionEntity {
   @Column({ name: 'provider_earning', type: 'decimal', precision: 12, scale: 2, default: 0 }) providerEarning: number;
   @Column({ name: 'started_at', nullable: true, type: 'timestamptz' }) startedAt: Date | null;
   @Column({ name: 'ended_at', nullable: true, type: 'timestamptz' }) endedAt: Date | null;
-  @Column({ name: 'end_reason', nullable: true }) endReason: string | null;
-  @Column({ name: 'agora_channel_id', nullable: true }) agoraChannelId: string | null;
+  @Column({ name: 'end_reason', type: 'varchar', nullable: true }) endReason: string | null;
+  @Column({ name: 'agora_channel_id', type: 'varchar', nullable: true }) agoraChannelId: string | null;
   @CreateDateColumn({ name: 'created_at' }) createdAt: Date;
 }

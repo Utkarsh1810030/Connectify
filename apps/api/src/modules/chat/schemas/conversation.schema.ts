@@ -5,6 +5,6 @@ import { Document } from 'mongoose';
 export class Conversation extends Document {
   @Prop({ required: true, index: true }) sessionId: string;
   @Prop({ type: [String], required: true }) participants: string[];
-  @Prop({ default: null }) lastMessageAt: Date | null;
+  @Prop({ type: Date, default: null }) lastMessageAt: Date | null;
 }
 export const ConversationSchema = SchemaFactory.createForClass(Conversation);

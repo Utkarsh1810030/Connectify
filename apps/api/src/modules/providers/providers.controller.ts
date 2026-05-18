@@ -11,8 +11,12 @@ export class ProvidersController {
   constructor(private readonly providersService: ProvidersService) {}
 
   @Get()
-  list(@Query('category') category?: string, @Query('page') page?: number, @Query('limit') limit?: number) {
-    return this.providersService.list({ category, page, limit });
+  list(@Query('category') category?: string, @Query('page') page?: string, @Query('limit') limit?: string) {
+    return this.providersService.list({
+      category,
+      page: page ? parseInt(page, 10) : undefined,
+      limit: limit ? parseInt(limit, 10) : undefined,
+    });
   }
 
   @Get(':id')

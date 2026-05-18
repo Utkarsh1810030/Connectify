@@ -5,7 +5,7 @@ export class ModerationLogEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'session_id', nullable: true })
+  @Column({ name: 'session_id', type: 'varchar', nullable: true })
   sessionId: string | null;
 
   @Column({ name: 'user_id' })

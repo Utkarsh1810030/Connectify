@@ -34,14 +34,15 @@ export class ProvidersService {
 
   async list(query: { category?: string; page?: number; limit?: number }) {
     const { category, page = 1, limit = 20 } = query;
-    const qb = this.repo.createQueryBuilder('p')
-      .leftJoinAndSelect('p.user', 'user')
-      .where('p.is_approved = true')
-      .orderBy('p.is_online', 'DESC')
-      .addOrderBy('p.avg_rating', 'DESC');
-    if (category) qb.andWhere(':category = ANY(p.categories)', { category });
-    const total = await qb.getCount();
-    const data = await qb.skip(getPaginationOffset(page, limit)).take(limit).getMany();
+    const where: Record<string, unknown> = { isApproved: true };
+    if (category) where['categories'] = category;
+    const [data, total] = await this.repo.findAndCount({
+      where,
+      relations: ['user'],
+      order: { isOnline: 'DESC', avgRating: 'DESC' },
+      skip: getPaginationOffset(page, limit),
+      take: limit,
+    });
     return { data, ...buildPagination(page, limit, total) };
   }
 

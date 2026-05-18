@@ -8,7 +8,7 @@ export class Message extends Document {
   @Prop({ enum: ['text','image','system'], default: 'text' }) type: string;
   @Prop({ required: true }) content: string;
   @Prop({ default: false }) isFiltered: boolean;
-  @Prop({ default: null }) readAt: Date | null;
+  @Prop({ type: Date, default: null }) readAt: Date | null;
 }
 export const MessageSchema = SchemaFactory.createForClass(Message);
 MessageSchema.index({ conversationId: 1, created_at: -1 });

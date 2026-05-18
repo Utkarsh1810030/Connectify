@@ -6,6 +6,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { ScheduleModule } from '@nestjs/schedule';
 import { validateConfig } from '@connectify/config';
 
+import { AppController } from './app.controller';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ProvidersModule } from './modules/providers/providers.module';
@@ -59,5 +60,6 @@ import { GatewaysModule } from './gateways/gateways.module';
     AdminModule,
     GatewaysModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {}

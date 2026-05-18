@@ -11,7 +11,7 @@ export class ReportEntity {
   @Column({ name: 'reported_user_id' })
   reportedUserId: string;
 
-  @Column({ name: 'session_id', nullable: true })
+  @Column({ name: 'session_id', type: 'varchar', nullable: true })
   sessionId: string | null;
 
   @Column({ type: 'text' })

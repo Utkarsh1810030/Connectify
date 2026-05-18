@@ -17,18 +17,18 @@ export const AppConfigSchema = z.object({
   JWT_ACCESS_EXPIRES_IN: z.string().default('15m'),
   JWT_REFRESH_EXPIRES_IN: z.string().default('30d'),
 
-  // Agora
-  AGORA_APP_ID: z.string().min(1),
-  AGORA_APP_CERTIFICATE: z.string().min(1),
+  // Agora (optional in dev — calling features disabled if not set)
+  AGORA_APP_ID: z.string().default(''),
+  AGORA_APP_CERTIFICATE: z.string().default(''),
 
-  // Razorpay
-  RAZORPAY_KEY_ID: z.string().min(1),
-  RAZORPAY_KEY_SECRET: z.string().min(1),
-  RAZORPAY_WEBHOOK_SECRET: z.string().min(1),
+  // Razorpay (optional in dev — payments disabled if not set)
+  RAZORPAY_KEY_ID: z.string().default(''),
+  RAZORPAY_KEY_SECRET: z.string().default(''),
+  RAZORPAY_WEBHOOK_SECRET: z.string().default(''),
 
-  // MSG91 (OTP)
-  MSG91_AUTH_KEY: z.string().min(1),
-  MSG91_TEMPLATE_ID: z.string().min(1),
+  // MSG91 (optional in dev — OTP logged to console if not set)
+  MSG91_AUTH_KEY: z.string().default(''),
+  MSG91_TEMPLATE_ID: z.string().default(''),
 
   // Platform
   PLATFORM_COMMISSION_RATE: z.coerce.number().min(0).max(1).default(0.15),
