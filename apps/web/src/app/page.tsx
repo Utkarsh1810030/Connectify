@@ -8,7 +8,7 @@ export default function LandingPage() {
         <span className={styles.logo}>Connectify</span>
         <div className={styles.navLinks}>
           <Link href="/pricing">Pricing</Link>
-          <Link href="/(app)/home" className={styles.ctaNav}>Get Started</Link>
+          <Link href="/home" className={styles.ctaNav}>Get Started</Link>
         </div>
       </nav>
 
@@ -19,7 +19,7 @@ export default function LandingPage() {
           Pay only for the time you use.
         </p>
         <div className={styles.heroCta}>
-          <Link href="/(app)/home" className={styles.primaryBtn}>Browse Companions</Link>
+          <Link href="/home" className={styles.primaryBtn}>Browse Companions</Link>
           <Link href="/pricing" className={styles.secondaryBtn}>See Pricing</Link>
         </div>
       </section>

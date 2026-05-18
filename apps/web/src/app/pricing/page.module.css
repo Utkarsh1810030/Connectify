@@ -1,0 +1,64 @@
+.container { min-height: 100vh; background: #fff; }
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 80px;
+  border-bottom: 1px solid var(--border);
+}
+.logo { font-size: 22px; font-weight: 700; color: var(--primary); }
+.ctaNav {
+  background: var(--primary);
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.hero { text-align: center; padding: 64px 40px 40px; }
+.title { font-size: 48px; font-weight: 800; color: #111; margin-bottom: 16px; }
+.subtitle { font-size: 18px; color: var(--muted); max-width: 500px; margin: 0 auto; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 480px));
+  gap: 24px;
+  justify-content: center;
+  padding: 40px 80px;
+}
+.card {
+  border: 2px solid var(--border);
+  border-radius: 20px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.highlight { border-color: var(--primary); background: var(--primary-light); }
+
+.tierName { font-size: 22px; font-weight: 700; }
+.tierDesc { color: var(--muted); font-size: 15px; }
+
+.features { list-style: none; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.feature { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+.check { color: var(--primary); font-weight: 700; }
+
+.cta {
+  display: block;
+  text-align: center;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  margin-top: 8px;
+}
+.ctaPrimary { background: var(--primary); color: #fff; }
+.ctaSecondary { border: 2px solid var(--primary); color: var(--primary); }
+
+.faq { padding: 40px 80px 80px; max-width: 760px; margin: 0 auto; }
+.faqTitle { font-size: 24px; font-weight: 700; margin-bottom: 24px; }
+.faqItem { margin-bottom: 24px; }
+.faqItem h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+.faqItem p { color: var(--muted); font-size: 14px; line-height: 1.7; }
