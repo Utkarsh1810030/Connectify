@@ -10,6 +10,7 @@ const mockProvidersService = {
   create: jest.fn(),
   update: jest.fn(),
   updateOnlineStatus: jest.fn(),
+  submitKyc: jest.fn(),
 };
 
 const mockUser = { id: 'user1', phone: '9999999999', role: 'provider' } as unknown as UserEntity;
@@ -67,5 +68,31 @@ describe('ProvidersController', () => {
   it('toggleOnline handles offline toggle', () => {
     controller.toggleOnline(mockUser, false);
     expect(mockProvidersService.updateOnlineStatus).toHaveBeenCalledWith('user1', false);
+  });
+
+  it('submitKyc passes userId and documentUrl', () => {
+    mockProvidersService.submitKyc.mockResolvedValue({ kycStatus: 'pending' });
+    controller.submitKyc(mockUser, 'https://cdn.example.com/doc.pdf');
+    expect(mockProvidersService.submitKyc).toHaveBeenCalledWith('user1', 'https://cdn.example.com/doc.pdf');
+  });
+
+  it('getKycStatus returns status fields from profile', async () => {
+    mockProvidersService.findByUserId.mockResolvedValue({
+      kycStatus: 'pending',
+      kycDocumentUrl: 'https://cdn.example.com/doc.pdf',
+      kycRejectionReason: null,
+    });
+    const result = await controller.getKycStatus(mockUser);
+    expect(result).toEqual({
+      kycStatus: 'pending',
+      kycDocumentUrl: 'https://cdn.example.com/doc.pdf',
+      kycRejectionReason: null,
+    });
+  });
+
+  it('getKycStatus returns not_submitted when no profile', async () => {
+    mockProvidersService.findByUserId.mockResolvedValue(null);
+    const result = await controller.getKycStatus(mockUser);
+    expect(result.kycStatus).toBe('not_submitted');
   });
 });

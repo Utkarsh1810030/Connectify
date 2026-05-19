@@ -26,6 +26,38 @@ export class BillingEngineService implements OnModuleDestroy {
     this.timers.set(session.sessionId, timer);
   }
 
+  async pauseBilling(sessionId: string): Promise<void> {
+    const timer = this.timers.get(sessionId);
+    if (timer) { clearInterval(timer); this.timers.delete(sessionId); }
+
+    const session = await this.cache.get<ActiveSessionState>(`session:active:${sessionId}`);
+    if (!session) return;
+
+    const now = Date.now();
+    const elapsedSinceLast = Math.floor((now - session.lastBilledAt) / 1000);
+    if (elapsedSinceLast >= 10) {
+      const partialAmount = roundMoney((elapsedSinceLast / 60) * session.ratePerMin);
+      const commissionRate = this.config.get<number>('PLATFORM_COMMISSION_RATE') ?? 0.15;
+      const { providerEarning } = splitAmount(partialAmount, commissionRate);
+      try {
+        await this.walletService.debit(session.userId, partialAmount, sessionId, 'Session (paused)');
+        await this.walletService.credit(session.providerId, providerEarning, sessionId, 'Session earning (paused)');
+      } catch { }
+    }
+    await this.cache.set(`session:active:${sessionId}`, { ...session, pausedAt: now }, ACTIVE_SESSION_TTL);
+  }
+
+  async resumeBilling(sessionId: string): Promise<void> {
+    const session = await this.cache.get<ActiveSessionState>(`session:active:${sessionId}`);
+    if (!session) return;
+    const now = Date.now();
+    await this.cache.set(`session:active:${sessionId}`, {
+      ...session, lastBilledAt: now, pausedAt: undefined,
+    }, ACTIVE_SESSION_TTL);
+    const timer = setInterval(() => this.tick(sessionId), BILLING_INTERVAL_MS);
+    this.timers.set(sessionId, timer);
+  }
+
   async stopBilling(sessionId: string): Promise<{ totalSec: number; totalAmount: number }> {
     const timer = this.timers.get(sessionId);
     if (timer) { clearInterval(timer); this.timers.delete(sessionId); }

@@ -87,6 +87,28 @@ export class SessionsService {
     return this.findById(sessionId);
   }
 
+  async pause(sessionId: string, userId: string): Promise<SessionEntity> {
+    const session = await this.findById(sessionId);
+    if (session.userId !== userId && session.providerId !== userId)
+      throw new BadRequestException('Not your session');
+    if (session.status !== 'active') throw new BadRequestException('Session is not active');
+    await this.billingEngine.pauseBilling(sessionId);
+    await this.repo.update(sessionId, { status: 'paused' });
+    this.eventBus.emit('session.paused', { sessionId, userId });
+    return this.findById(sessionId);
+  }
+
+  async resume(sessionId: string, userId: string): Promise<SessionEntity> {
+    const session = await this.findById(sessionId);
+    if (session.userId !== userId && session.providerId !== userId)
+      throw new BadRequestException('Not your session');
+    if (session.status !== 'paused') throw new BadRequestException('Session is not paused');
+    await this.billingEngine.resumeBilling(sessionId);
+    await this.repo.update(sessionId, { status: 'active' });
+    this.eventBus.emit('session.resumed', { sessionId, userId });
+    return this.findById(sessionId);
+  }
+
   async findById(id: string): Promise<SessionEntity> {
     const session = await this.repo.findOne({ where: { id } });
     if (!session) throw new NotFoundException(`Session ${id} not found`);

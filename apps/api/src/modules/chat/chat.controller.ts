@@ -10,7 +10,7 @@ export class ChatController {
   constructor(
     private readonly chatService: ChatService,
     private readonly sessionsService: SessionsService,
-  ) {}
+  ) { }
 
   @Post('conversations')
   async getOrCreate(

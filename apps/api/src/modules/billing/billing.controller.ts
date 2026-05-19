@@ -22,7 +22,7 @@ export class BillingController {
   constructor(
     private readonly walletService: WalletService,
     private readonly razorpayService: RazorpayService,
-  ) {}
+  ) { }
 
   @UseGuards(JwtAuthGuard)
   @Get('wallet')

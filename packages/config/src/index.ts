@@ -30,6 +30,9 @@ export const AppConfigSchema = z.object({
   MSG91_AUTH_KEY: z.string().default(''),
   MSG91_TEMPLATE_ID: z.string().default(''),
 
+  // Firebase (optional in dev — push notifications disabled if not set)
+  FIREBASE_SERVICE_ACCOUNT_JSON: z.string().default(''),
+
   // Platform
   PLATFORM_COMMISSION_RATE: z.coerce.number().min(0).max(1).default(0.15),
   MIN_WALLET_BALANCE_WARNING: z.coerce.number().default(30),

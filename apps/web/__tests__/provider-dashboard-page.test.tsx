@@ -51,6 +51,7 @@ describe('ProviderDashboardPage', () => {
   it('renders provider name', () => {
     mockUseQuery
       .mockReturnValueOnce({ data: mockProfile, isLoading: false })
+      .mockReturnValueOnce({ data: null, isLoading: false })
       .mockReturnValueOnce({ data: mockSessions, isLoading: false });
     render(<ProviderDashboardPage />);
     expect(screen.getByText(/Alice/)).toBeInTheDocument();
@@ -59,6 +60,7 @@ describe('ProviderDashboardPage', () => {
   it('renders session and minute stats', () => {
     mockUseQuery
       .mockReturnValueOnce({ data: mockProfile, isLoading: false })
+      .mockReturnValueOnce({ data: null, isLoading: false })
       .mockReturnValueOnce({ data: mockSessions, isLoading: false });
     render(<ProviderDashboardPage />);
     expect(screen.getByText('12')).toBeInTheDocument();
@@ -68,8 +70,36 @@ describe('ProviderDashboardPage', () => {
   it('renders avg rating', () => {
     mockUseQuery
       .mockReturnValueOnce({ data: mockProfile, isLoading: false })
+      .mockReturnValueOnce({ data: null, isLoading: false })
       .mockReturnValueOnce({ data: mockSessions, isLoading: false });
     render(<ProviderDashboardPage />);
     expect(screen.getByText(/4\.7/)).toBeInTheDocument();
+  });
+
+  it('renders KYC approved badge', () => {
+    mockUseQuery
+      .mockReturnValueOnce({ data: mockProfile, isLoading: false })
+      .mockReturnValueOnce({ data: { kycStatus: 'approved' }, isLoading: false })
+      .mockReturnValueOnce({ data: mockSessions, isLoading: false });
+    render(<ProviderDashboardPage />);
+    expect(screen.getByText('KYC Verified')).toBeInTheDocument();
+  });
+
+  it('renders KYC pending badge', () => {
+    mockUseQuery
+      .mockReturnValueOnce({ data: mockProfile, isLoading: false })
+      .mockReturnValueOnce({ data: { kycStatus: 'pending' }, isLoading: false })
+      .mockReturnValueOnce({ data: mockSessions, isLoading: false });
+    render(<ProviderDashboardPage />);
+    expect(screen.getByText('KYC Pending Review')).toBeInTheDocument();
+  });
+
+  it('renders KYC not submitted badge when no kyc data', () => {
+    mockUseQuery
+      .mockReturnValueOnce({ data: mockProfile, isLoading: false })
+      .mockReturnValueOnce({ data: { kycStatus: 'not_submitted' }, isLoading: false })
+      .mockReturnValueOnce({ data: mockSessions, isLoading: false });
+    render(<ProviderDashboardPage />);
+    expect(screen.getByText('KYC Not Submitted')).toBeInTheDocument();
   });
 });

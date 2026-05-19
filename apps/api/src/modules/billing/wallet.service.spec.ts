@@ -10,7 +10,7 @@ import { CACHE_SERVICE } from '../../infrastructure/cache/cache.interface';
 
 const mockWalletRepo = { findOne: jest.fn(), create: jest.fn(), save: jest.fn() };
 const mockTxRepo = { findAndCount: jest.fn(), create: jest.fn(), save: jest.fn() };
-const mockPayoutRepo = { findAndCount: jest.fn(), create: jest.fn(), save: jest.fn() };
+const mockPayoutRepo = { findAndCount: jest.fn(), create: jest.fn(), save: jest.fn(), findOne: jest.fn() };
 const mockCache = { get: jest.fn(), set: jest.fn(), del: jest.fn() };
 const mockDataSource = { transaction: jest.fn() };
 
@@ -87,6 +87,7 @@ describe('WalletService', () => {
 
     it('creates payout when balance and amount are valid', async () => {
       mockCache.get.mockResolvedValue(500);
+      mockPayoutRepo.findOne.mockResolvedValue(null);
       const payout = { id: 'pay1', amount: 200, status: 'pending' };
       mockPayoutRepo.create.mockReturnValue(payout);
       mockPayoutRepo.save.mockResolvedValue(payout);
@@ -94,6 +95,12 @@ describe('WalletService', () => {
       const result = await service.requestPayout('user1', 200);
       expect(mockPayoutRepo.save).toHaveBeenCalled();
       expect(result).toBe(payout);
+    });
+
+    it('throws BadRequestException when a pending payout already exists', async () => {
+      mockCache.get.mockResolvedValue(500);
+      mockPayoutRepo.findOne.mockResolvedValue({ id: 'pay0', status: 'pending' });
+      await expect(service.requestPayout('user1', 200)).rejects.toThrow(BadRequestException);
     });
   });
 

@@ -23,7 +23,7 @@ function RatingForm({ sessionId }: { sessionId: string }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    api.get(`/ratings/session/${sessionId}`).then(r => { if (r.data) setDone(true); }).catch(() => {});
+    api.get(`/ratings/session/${sessionId}`).then(r => { if (r.data) setDone(true); }).catch(() => { });
   }, [sessionId]);
 
   async function submit() {
@@ -181,10 +181,21 @@ export default function SessionPage() {
     onSuccess: () => refetch(),
   });
 
+  const pauseSession = useMutation({
+    mutationFn: () => api.post(`/sessions/${id}/pause`),
+    onSuccess: () => refetch(),
+  });
+
+  const resumeSession = useMutation({
+    mutationFn: () => api.post(`/sessions/${id}/resume`),
+    onSuccess: () => refetch(),
+  });
+
   if (isLoading) return <div className={styles.state}>Loading session...</div>;
   if (!session) return <div className={styles.state}>Session not found.</div>;
 
   const isActive = session.status === 'active';
+  const isPaused = session.status === 'paused';
   const isDone = ['completed', 'cancelled', 'failed'].includes(session.status);
 
   return (
@@ -218,14 +229,38 @@ export default function SessionPage() {
         </div>
       )}
 
-      {isActive && (
-        <button
-          className={styles.endBtn}
-          disabled={endSession.isPending}
-          onClick={() => endSession.mutate()}
-        >
-          {endSession.isPending ? 'Ending...' : 'End Session'}
-        </button>
+      {isPaused && (
+        <div className={styles.callNotice}>⏸ Session is paused. Resume to continue billing.</div>
+      )}
+
+      {(isActive || isPaused) && (
+        <div className={styles.sessionActions}>
+          {isActive && (
+            <button
+              className={styles.pauseBtn}
+              disabled={pauseSession.isPending}
+              onClick={() => pauseSession.mutate()}
+            >
+              {pauseSession.isPending ? 'Pausing...' : '⏸ Pause'}
+            </button>
+          )}
+          {isPaused && (
+            <button
+              className={styles.resumeBtn}
+              disabled={resumeSession.isPending}
+              onClick={() => resumeSession.mutate()}
+            >
+              {resumeSession.isPending ? 'Resuming...' : '▶ Resume'}
+            </button>
+          )}
+          <button
+            className={styles.endBtn}
+            disabled={endSession.isPending}
+            onClick={() => endSession.mutate()}
+          >
+            {endSession.isPending ? 'Ending...' : 'End Session'}
+          </button>
+        </div>
       )}
 
       {isDone && (

@@ -59,4 +59,22 @@ export class SessionGateway implements OnGatewayConnection, OnModuleInit {
     this.server.to(`session:${data.sessionId}`).emit('session_ended', { sessionId: data.sessionId, reason: 'user_ended' });
     return { event: 'session_ended', data: session };
   }
+
+  @SubscribeMessage('pause_session')
+  async handlePauseSession(@ConnectedSocket() client: Socket, @MessageBody() data: { sessionId: string }) {
+    const userId = client.handshake.auth?.userId;
+    if (!userId) return { event: 'error', data: 'Unauthorized' };
+    const session = await this.sessionsService.pause(data.sessionId, userId);
+    this.server.to(`session:${data.sessionId}`).emit('session_paused', { sessionId: data.sessionId });
+    return { event: 'session_paused', data: session };
+  }
+
+  @SubscribeMessage('resume_session')
+  async handleResumeSession(@ConnectedSocket() client: Socket, @MessageBody() data: { sessionId: string }) {
+    const userId = client.handshake.auth?.userId;
+    if (!userId) return { event: 'error', data: 'Unauthorized' };
+    const session = await this.sessionsService.resume(data.sessionId, userId);
+    this.server.to(`session:${data.sessionId}`).emit('session_resumed', { sessionId: data.sessionId });
+    return { event: 'session_resumed', data: session };
+  }
 }

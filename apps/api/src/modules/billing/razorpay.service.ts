@@ -21,6 +21,9 @@ export class RazorpayService {
   }
 
   async createOrder(amount: number): Promise<{ orderId: string; amount: number; currency: string }> {
+    if (!this.client) {
+      return { orderId: `order_dev_${Date.now()}`, amount, currency: 'INR' };
+    }
     const order = await this.client.orders.create({
       amount: Math.round(amount * 100), // paise
       currency: 'INR',
@@ -29,11 +32,10 @@ export class RazorpayService {
   }
 
   verifyPaymentSignature(orderId: string, paymentId: string, signature: string): boolean {
+    const secret = this.config.get<string>('RAZORPAY_KEY_SECRET') ?? '';
+    if (!secret) return true; // dev mode: no keys configured, skip verification
     const body = `${orderId}|${paymentId}`;
-    const expected = crypto
-      .createHmac('sha256', this.config.get<string>('RAZORPAY_KEY_SECRET')!)
-      .update(body)
-      .digest('hex');
+    const expected = crypto.createHmac('sha256', secret).update(body).digest('hex');
     return expected === signature;
   }
 

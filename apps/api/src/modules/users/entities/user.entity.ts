@@ -24,6 +24,9 @@ export class UserEntity {
   @Column({ name: 'is_banned', default: false })
   isBanned: boolean;
 
+  @Column({ name: 'fcm_token', type: 'text', nullable: true })
+  fcmToken: string | null;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

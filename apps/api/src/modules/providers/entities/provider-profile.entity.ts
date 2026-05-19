@@ -55,6 +55,20 @@ export class ProviderProfileEntity {
   @Column({ name: 'commission_rate', type: 'decimal', precision: 5, scale: 4, default: 0.15 })
   commissionRate: number;
 
+  @Column({
+    name: 'kyc_status',
+    type: 'enum',
+    enum: ['not_submitted', 'pending', 'approved', 'rejected'],
+    default: 'not_submitted',
+  })
+  kycStatus: 'not_submitted' | 'pending' | 'approved' | 'rejected';
+
+  @Column({ name: 'kyc_document_url', type: 'text', nullable: true })
+  kycDocumentUrl: string | null;
+
+  @Column({ name: 'kyc_rejection_reason', type: 'text', nullable: true })
+  kycRejectionReason: string | null;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 }

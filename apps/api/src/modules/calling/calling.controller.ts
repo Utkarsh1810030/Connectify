@@ -12,7 +12,7 @@ export class CallingController {
     private readonly callingService: CallingService,
     private readonly sessionsService: SessionsService,
     private readonly config: ConfigService,
-  ) {}
+  ) { }
 
   @Get('token')
   async getToken(

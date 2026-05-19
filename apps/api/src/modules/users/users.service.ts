@@ -43,4 +43,8 @@ export class UsersService {
     await this.findById(id);
     await this.repo.update(id, { isBanned: false });
   }
+
+  async updateFcmToken(id: string, fcmToken: string): Promise<void> {
+    await this.repo.update(id, { fcmToken });
+  }
 }

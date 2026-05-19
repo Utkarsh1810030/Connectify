@@ -47,6 +47,7 @@ export interface ActiveSessionState {
   ratePerMin: number;
   startedAt: number;
   lastBilledAt: number;
+  pausedAt?: number;
   agoraChannelId: string | null;
   agoraToken: string | null;
 }

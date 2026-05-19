@@ -35,9 +35,21 @@
   color: #374151;
 }
 
-.status[data-status="active"] { background: #dcfce7; color: #16a34a; }
-.status[data-status="completed"] { background: #dbeafe; color: #1d4ed8; }
-.status[data-status="failed"], .status[data-status="cancelled"] { background: #fee2e2; color: #dc2626; }
+.status[data-status="active"] {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.status[data-status="completed"] {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status[data-status="failed"],
+.status[data-status="cancelled"] {
+  background: #fee2e2;
+  color: #dc2626;
+}
 
 .info {
   background: #f9fafb;
@@ -55,7 +67,9 @@
   color: #6b7280;
 }
 
-.infoRow strong { color: #111827; }
+.infoRow strong {
+  color: #111827;
+}
 
 /* Chat */
 .chatRoom {
@@ -78,9 +92,19 @@
   color: #6b7280;
 }
 
-.dot { width: 8px; height: 8px; border-radius: 50%; }
-.dotOnline { background: #22c55e; }
-.dotOffline { background: #d1d5db; }
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dotOnline {
+  background: #22c55e;
+}
+
+.dotOffline {
+  background: #d1d5db;
+}
 
 .chatMessages {
   flex: 1;
@@ -112,7 +136,11 @@
   border-bottom-left-radius: 4px;
 }
 
-.bubbleText { margin: 0; font-size: 0.9rem; line-height: 1.4; }
+.bubbleText {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
 
 .typingIndicator {
   font-size: 0.78rem;
@@ -146,8 +174,14 @@
   transition: background 0.15s;
 }
 
-.sendBtn:hover:not(:disabled) { background: #6d28d9; }
-.sendBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+.sendBtn:hover:not(:disabled) {
+  background: #6d28d9;
+}
+
+.sendBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 /* Call notice */
 .callNotice {
@@ -176,7 +210,10 @@
   color: #111827;
 }
 
-.stars { display: flex; gap: 0.5rem; }
+.stars {
+  display: flex;
+  gap: 0.5rem;
+}
 
 .star {
   font-size: 1.75rem;
@@ -189,7 +226,9 @@
   transition: color 0.1s;
 }
 
-.starActive { color: #f59e0b; }
+.starActive {
+  color: #f59e0b;
+}
 
 .ratingComment {
   width: 100%;
@@ -202,7 +241,9 @@
   box-sizing: border-box;
 }
 
-.ratingComment:focus { border-color: #7c3aed; }
+.ratingComment:focus {
+  border-color: #7c3aed;
+}
 
 .submitRating {
   background: #7c3aed;
@@ -215,12 +256,57 @@
   cursor: pointer;
 }
 
-.submitRating:disabled { opacity: 0.6; cursor: not-allowed; }
-.ratedText { color: #16a34a; font-weight: 600; margin: 0; }
+.submitRating:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ratedText {
+  color: #16a34a;
+  font-weight: 600;
+  margin: 0;
+}
 
 /* Actions */
+.sessionActions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.pauseBtn {
+  flex: 1;
+  background: #f59e0b;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pauseBtn:hover:not(:disabled) {
+  background: #d97706;
+}
+
+.resumeBtn {
+  flex: 1;
+  background: #22c55e;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.resumeBtn:hover:not(:disabled) {
+  background: #16a34a;
+}
+
 .endBtn {
-  width: 100%;
+  flex: 1;
   background: #ef4444;
   color: #fff;
   border: none;
@@ -231,8 +317,16 @@
   cursor: pointer;
 }
 
-.endBtn:hover:not(:disabled) { background: #dc2626; }
-.endBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+.endBtn:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.pauseBtn:disabled,
+.resumeBtn:disabled,
+.endBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
 .homeBtn {
   width: 100%;

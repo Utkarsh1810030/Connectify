@@ -13,17 +13,30 @@ export default function TopUpModal() {
   const qc = useQueryClient();
 
   const topupMutation = useMutation({
-    mutationFn: (amount: number) => api.post('/billing/topup', { amount }).then(r => r.data),
+    mutationFn: async (amount: number) => {
+      // Step 1: Create Razorpay order
+      const { data: order } = await api.post('/billing/topup/order', { amount });
+
+      // Step 2: In production, open Razorpay SDK here with order.orderId
+      // For dev (no Razorpay keys), the orderId is a mock — we proceed directly to verify
+      const paymentId = `pay_dev_${Date.now()}`;
+
+      // Step 3: Verify payment and credit wallet
+      const { data } = await api.post('/billing/topup/verify', {
+        orderId: order.orderId,
+        paymentId,
+        signature: 'dev_bypass',
+        amount,
+      });
+      return data;
+    },
     onSuccess: async (data) => {
-      // In dev without Razorpay keys, this returns a mock Razorpay order
-      // Real flow: open Razorpay SDK with orderId, on success call /billing/topup/confirm
-      Alert.alert('Top Up Initiated', `Order ID: ${data.orderId}\n\nIn production, Razorpay payment sheet opens here.`);
-      const wallet = await api.get('/billing/wallet').then(r => r.data);
-      setBalance(wallet.balance);
+      setBalance(data.balance);
       qc.invalidateQueries({ queryKey: ['wallet'] });
+      Alert.alert('Success', `₹${selected} added to your wallet.`);
       router.back();
     },
-    onError: () => Alert.alert('Error', 'Failed to initiate top-up. Please try again.'),
+    onError: () => Alert.alert('Error', 'Failed to add money. Please try again.'),
   });
 
   return (

@@ -63,4 +63,9 @@ export class ModerationService {
     });
     return { data, ...buildPagination(page, limit, total) };
   }
+
+  async updateReport(id: string, status: string): Promise<ReportEntity> {
+    await this.reportRepo.update(id, { status });
+    return this.reportRepo.findOneOrFail({ where: { id } });
+  }
 }

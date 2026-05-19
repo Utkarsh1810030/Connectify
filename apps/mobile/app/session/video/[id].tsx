@@ -13,6 +13,7 @@ export default function VideoSessionScreen() {
   const [elapsed, setElapsed] = useState(0);
   const [muted, setMuted] = useState(false);
   const [cameraOff, setCameraOff] = useState(false);
+  const [paused, setPaused] = useState(false);
   const [remoteUid, setRemoteUid] = useState<number | null>(null);
   const [initializing, setInitializing] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -43,8 +44,12 @@ export default function VideoSessionScreen() {
     socketService.onLowBalance(() =>
       Alert.alert('Low Balance', 'Your wallet balance is running low.')
     );
+    socketService.onSessionPaused(() => setPaused(true));
+    socketService.onSessionResumed(() => setPaused(false));
 
-    const timer = setInterval(() => setElapsed(prev => prev + 1), 1000);
+    const timer = setInterval(() => {
+      if (!paused) setElapsed(prev => prev + 1);
+    }, 1000);
 
     async function init() {
       try {
@@ -75,6 +80,21 @@ export default function VideoSessionScreen() {
     const next = !cameraOff;
     setCameraOff(next);
     agoraService.muteLocalVideo(next);
+  };
+
+  const togglePause = async () => {
+    try {
+      if (paused) {
+        await api.post(`/sessions/${id}/resume`);
+        socketService.emitResumeSession(id as string);
+      } else {
+        await api.post(`/sessions/${id}/pause`);
+        socketService.emitPauseSession(id as string);
+      }
+      setPaused(prev => !prev);
+    } catch {
+      Alert.alert('Error', 'Failed to update session state.');
+    }
   };
 
   if (error) {
@@ -116,11 +136,15 @@ export default function VideoSessionScreen() {
         )}
       </View>
 
-      <Text style={styles.timer}>{formatTime(elapsed)}</Text>
+      <Text style={styles.timer}>{paused ? '⏸ Paused' : formatTime(elapsed)}</Text>
 
       <View style={styles.controls}>
         <TouchableOpacity style={styles.controlBtn} onPress={toggleMute}>
           <Text style={styles.controlIcon}>{muted ? '🔇' : '🎤'}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.controlBtn} onPress={togglePause}>
+          <Text style={styles.controlIcon}>{paused ? '▶️' : '⏸'}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity

@@ -2,7 +2,7 @@
 
 > This file serves as persistent context for AI-assisted development. Update periodically to maintain continuity across sessions.
 
-**Last Updated:** 2026-05-19
+**Last Updated:** 2026-05-19 (Session 3)
 
 ---
 
@@ -327,17 +327,28 @@ mockUseQuery.mockReturnValue({ data: ..., isLoading: false });
 - [x] GitHub Actions CI pipeline
 - [x] API smoke-tested (health, auth, providers all working)
 - [x] React Native Expo mobile — scaffolded, navigation, stores, services
-- [x] Next.js web — all routes working, 26 unit tests passing
+- [x] Next.js web — all routes working, unit tests passing
 - [x] All 404 bugs fixed (route groups, missing pricing page, bad redirects)
+- [x] FCM push notifications — firebase-admin v12.7.0, FIREBASE_APP provider (null in dev → console.log)
+- [x] Admin report update — `moderationService.updateReport()` wired (was hardcoded stub)
+- [x] Session pause/resume — billing engine `pauseBilling`/`resumeBilling`, REST `POST :id/pause|resume`, WebSocket `pause_session|resume_session`
+- [x] Provider approval push notification — `approveProvider()` fires FCM via `NotificationsService`
+- [x] Provider weighted ranking — Postgres QueryBuilder ORDER BY `avg_rating/5*0.5 + sessions/200*0.3 + is_online*0.2`
+- [x] KYC flow — `kycStatus` enum on `ProviderProfileEntity`, `POST /providers/kyc` (submit), `GET /providers/kyc` (status), `POST /admin/providers/:id/kyc/review`
+- [x] Razorpay dev bypass — `createOrder` and `verifyPaymentSignature` return mocks when keys not configured
+- [x] Wallet payout duplicate check — prevents second pending payout request
+- [x] Mobile FCM token registration — `expo-notifications.getDevicePushTokenAsync()` → `PATCH /users/me/device-token` on login
+- [x] Mobile topup flow — correct `POST /billing/topup/order` + `POST /billing/topup/verify` endpoints
+- [x] Mobile voice/video screens — Agora RTC integrated, pause/resume (voice), socket lifecycle
+- [x] Web `/login` page — auth flow wired, OTP login with phone number
+- [x] Web `/session/[id]` — chat room with Socket.io, session end, rating form
+- [x] Web `/admin/sessions` — sessions list with filter
+- [x] Admin KYC review endpoint — `POST /admin/providers/:id/kyc/review`
+- [x] Test coverage — 106 API tests + 80 web tests = 186 total, all passing
+- [x] `CLAUDE.md` created with session protocol, quirks, test commands
 
 ### Pending
 - [ ] GitHub Issues creation (Epics + Stories)
-- [ ] Web: `/login` page (auth flow not connected)
-- [ ] Web: `/session/[id]` page not built
-- [ ] Web: `/admin/sessions` page not built
-- [ ] Mobile: zero unit test coverage
-- [ ] Agora RTC — voice/video screens are UI stubs only
-- [ ] Razorpay — `createOrder` works, SDK payment sheet not wired
 - [ ] E2E tests — Playwright (web) / Detox (mobile) not set up
 - [ ] `docker-compose.prod.yml` not created
 
@@ -353,13 +364,18 @@ mockUseQuery.mockReturnValue({ data: ..., isLoading: false });
 - Finalized tech stack, designed full system architecture
 - Created agile breakdown (5 epics, 109 SP)
 
-### Session 2 (2026-05-18 → 2026-05-19)
-- Scaffolded full Turborepo monorepo
-- Built NestJS backend with all 11 modules
-- Fixed MongoDB + PostgreSQL local dev connection issues (see Section 10)
-- Scaffolded React Native Expo mobile app
-- Scaffolded Next.js web app
-- Fixed all 404 routes (route group leaks, missing pricing page)
-- Wrote 26 unit tests (TDD: red → green) for web app
-- All `turbo typecheck` passing (9/9 packages)
-- **Next:** Create GitHub Issues for epics, wire auth flow, build missing pages
+### Session 3 (2026-05-19)
+- Implemented FCM push notifications (firebase-admin, null-safe dev mode)
+- Fixed admin report update (was returning hardcoded stub)
+- Implemented session pause/resume (billing engine + REST + WebSocket + mobile socket)
+- Provider approval sends push notification
+- Provider weighted ranking via Postgres QueryBuilder raw expression
+- KYC flow (submit, status, admin review endpoints)
+- Razorpay dev bypass (both createOrder and verifyPaymentSignature)
+- Wallet payout duplicate prevention
+- Mobile FCM token registration on login
+- Mobile topup fixed to use correct billing endpoints
+- Web login page wired, session page with chat/rating, admin sessions page
+- Created CLAUDE.md with session start protocol, quirks, test commands
+- Test coverage: 179 total (105 API + 74 web), all passing
+- **Next:** video pause/resume, mobile profile KYC, web session pause, web dashboard KYC

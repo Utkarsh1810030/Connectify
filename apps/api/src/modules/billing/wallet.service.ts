@@ -95,6 +95,8 @@ export class WalletService {
     const balance = await this.getBalance(userId);
     if (balance < amount) throw new BadRequestException('Insufficient wallet balance');
     if (amount < 100) throw new BadRequestException('Minimum payout is ₹100');
+    const existing = await this.payoutRepo.findOne({ where: { providerId: userId, status: 'pending' } });
+    if (existing) throw new BadRequestException('A payout request is already pending');
     return this.payoutRepo.save(this.payoutRepo.create({ providerId: userId, amount, status: 'pending' }));
   }
 

@@ -5,10 +5,23 @@ import { api } from '@/lib/api';
 import styles from './page.module.css';
 import type { ProviderProfile } from '@connectify/types';
 
+const KYC_BADGE: Record<string, { label: string; bg: string; color: string }> = {
+  not_submitted: { label: 'KYC Not Submitted', bg: '#f3f4f6', color: '#6b7280' },
+  pending: { label: 'KYC Pending Review', bg: '#fef3c7', color: '#d97706' },
+  approved: { label: 'KYC Verified', bg: '#dcfce7', color: '#16a34a' },
+  rejected: { label: 'KYC Rejected', bg: '#fee2e2', color: '#dc2626' },
+};
+
 export default function ProviderDashboardPage() {
   const { data: profile, isLoading } = useQuery<ProviderProfile>({
     queryKey: ['provider', 'me'],
     queryFn: () => api.get('/providers/me').then(r => r.data),
+  });
+
+  const { data: kyc } = useQuery({
+    queryKey: ['kyc', 'me'],
+    queryFn: () => api.get('/providers/kyc').then(r => r.data),
+    enabled: !!profile,
   });
 
   const { data: sessions } = useQuery({
@@ -36,6 +49,14 @@ export default function ProviderDashboardPage() {
             {profile.isOnline ? 'Online' : 'Offline'}
           </span>
           {!profile.isApproved && <span className={styles.pendingBadge}>Pending approval</span>}
+          {kyc?.kycStatus && KYC_BADGE[kyc.kycStatus] && (
+            <span
+              className={styles.kycBadge}
+              style={{ background: KYC_BADGE[kyc.kycStatus].bg, color: KYC_BADGE[kyc.kycStatus].color }}
+            >
+              {KYC_BADGE[kyc.kycStatus].label}
+            </span>
+          )}
         </div>
       </div>
 

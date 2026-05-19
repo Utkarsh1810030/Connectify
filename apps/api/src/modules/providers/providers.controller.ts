@@ -47,4 +47,20 @@ export class ProvidersController {
   toggleOnline(@CurrentUser() user: UserEntity, @Body('isOnline') isOnline: boolean) {
     return this.providersService.updateOnlineStatus(user.id, isOnline);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('kyc')
+  submitKyc(@CurrentUser() user: UserEntity, @Body('documentUrl') documentUrl: string) {
+    return this.providersService.submitKyc(user.id, documentUrl);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('kyc')
+  getKycStatus(@CurrentUser() user: UserEntity) {
+    return this.providersService.findByUserId(user.id).then(p => ({
+      kycStatus: p?.kycStatus ?? 'not_submitted',
+      kycDocumentUrl: p?.kycDocumentUrl ?? null,
+      kycRejectionReason: p?.kycRejectionReason ?? null,
+    }));
+  }
 }

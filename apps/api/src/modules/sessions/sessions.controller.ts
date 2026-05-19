@@ -7,7 +7,7 @@ import { StartSessionDto } from './dto/start-session.dto';
 @Controller('sessions')
 @UseGuards(JwtAuthGuard)
 export class SessionsController {
-  constructor(private readonly sessionsService: SessionsService) {}
+  constructor(private readonly sessionsService: SessionsService) { }
 
   @Post()
   create(@CurrentUser() user: { id: string }, @Body() dto: StartSessionDto) {
@@ -17,6 +17,16 @@ export class SessionsController {
   @Post(':id/start')
   start(@Param('id') id: string, @CurrentUser() user: { id: string }) {
     return this.sessionsService.start(id, user.id);
+  }
+
+  @Post(':id/pause')
+  pause(@Param('id') id: string, @CurrentUser() user: { id: string }) {
+    return this.sessionsService.pause(id, user.id);
+  }
+
+  @Post(':id/resume')
+  resume(@Param('id') id: string, @CurrentUser() user: { id: string }) {
+    return this.sessionsService.resume(id, user.id);
   }
 
   @Post(':id/end')

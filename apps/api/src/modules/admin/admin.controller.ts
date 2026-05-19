@@ -2,6 +2,7 @@ import { Controller, Get, Post, Patch, Param, Query, Body, UseGuards } from '@ne
 import { AdminService } from './admin.service';
 import { ModerationService } from '../moderation/moderation.service';
 import { SessionsService } from '../sessions/sessions.service';
+import { ProvidersService } from '../providers/providers.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
@@ -14,6 +15,7 @@ export class AdminController {
     private readonly adminService: AdminService,
     private readonly moderationService: ModerationService,
     private readonly sessionsService: SessionsService,
+    private readonly providersService: ProvidersService,
   ) { }
 
   @Get('users')
@@ -35,6 +37,15 @@ export class AdminController {
   @Post('providers/:id/approve')
   approveProvider(@Param('id') id: string) { return this.adminService.approveProvider(id); }
 
+  @Post('providers/:id/kyc/review')
+  reviewKyc(
+    @Param('id') id: string,
+    @Body('decision') decision: 'approved' | 'rejected',
+    @Body('rejectionReason') rejectionReason?: string,
+  ) {
+    return this.providersService.reviewKyc(id, decision, rejectionReason);
+  }
+
   @Get('reports')
   listReports(@Query('page') page?: number, @Query('limit') limit?: number, @Query('status') status?: string) {
     return this.moderationService.getReports({ page, limit, status });
@@ -42,8 +53,7 @@ export class AdminController {
 
   @Patch('reports/:id')
   updateReport(@Param('id') id: string, @Body('status') status: string) {
-    // Delegate to moderation service when update is needed
-    return { id, status };
+    return this.moderationService.updateReport(id, status);
   }
 
   @Get('payouts')

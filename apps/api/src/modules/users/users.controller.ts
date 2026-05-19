@@ -22,6 +22,12 @@ export class UsersController {
     return this.usersService.update(user.id, dto);
   }
 
+  @Patch('me/device-token')
+  async updateDeviceToken(@CurrentUser() user: UserEntity, @Body('token') token: string) {
+    await this.usersService.updateFcmToken(user.id, token);
+    return { success: true };
+  }
+
   @UseGuards(RolesGuard)
   @Roles('admin')
   @Get(':id')

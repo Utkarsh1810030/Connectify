@@ -1,11 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import * as firebaseAdmin from 'firebase-admin';
+import { UserEntity } from '../users/entities/user.entity';
+
+export const FIREBASE_APP = 'FIREBASE_APP';
 
 @Injectable()
 export class NotificationsService {
   private readonly isDev: boolean;
 
-  constructor(private readonly config: ConfigService) {
+  constructor(
+    private readonly config: ConfigService,
+    @InjectRepository(UserEntity)
+    private readonly userRepo: Repository<UserEntity>,
+    @Inject(FIREBASE_APP) private readonly firebaseApp: firebaseAdmin.app.App | null,
+  ) {
     this.isDev = config.get('NODE_ENV') !== 'production';
   }
 
@@ -14,8 +25,20 @@ export class NotificationsService {
       console.log(`[PUSH] userId=${userId} title="${title}" body="${body}"`, data);
       return;
     }
-    // TODO: Integrate FCM Admin SDK
-    // await firebaseAdmin.messaging().send({ token: deviceToken, notification: { title, body }, data });
+    if (!this.firebaseApp) return;
+
+    const user = await this.userRepo.findOne({ where: { id: userId }, select: ['id', 'fcmToken'] });
+    if (!user?.fcmToken) return;
+
+    try {
+      await this.firebaseApp.messaging().send({
+        token: user.fcmToken,
+        notification: { title, body },
+        data,
+      });
+    } catch (err) {
+      console.error(`[FCM] Push failed for userId=${userId}:`, err);
+    }
   }
 
   async notifySessionRequest(userId: string, providerName: string): Promise<void> {

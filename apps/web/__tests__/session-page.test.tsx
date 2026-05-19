@@ -132,4 +132,23 @@ describe('SessionPage', () => {
     render(<SessionPage />);
     expect(screen.getByText('user ended')).toBeInTheDocument();
   });
+
+  it('shows Pause button for active session', () => {
+    mockUseQuery.mockReturnValue({ data: baseSession, isLoading: false });
+    render(<SessionPage />);
+    expect(screen.getByRole('button', { name: /pause/i })).toBeInTheDocument();
+  });
+
+  it('shows Resume button and paused notice for paused session', () => {
+    mockUseQuery.mockReturnValue({ data: { ...baseSession, status: 'paused' }, isLoading: false });
+    render(<SessionPage />);
+    expect(screen.getByRole('button', { name: /resume/i })).toBeInTheDocument();
+    expect(screen.getByText(/Session is paused/i)).toBeInTheDocument();
+  });
+
+  it('does not show Pause button for paused session', () => {
+    mockUseQuery.mockReturnValue({ data: { ...baseSession, status: 'paused' }, isLoading: false });
+    render(<SessionPage />);
+    expect(screen.queryByRole('button', { name: /pause/i })).not.toBeInTheDocument();
+  });
 });

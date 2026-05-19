@@ -3,6 +3,7 @@ import { UsersService } from '../users/users.service';
 import { ProvidersService } from '../providers/providers.service';
 import { SessionsService } from '../sessions/sessions.service';
 import { ModerationService } from '../moderation/moderation.service';
+import { NotificationsService } from '../notifications/notifications.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../users/entities/user.entity';
@@ -15,6 +16,7 @@ export class AdminService {
     private readonly usersService: UsersService,
     private readonly providersService: ProvidersService,
     private readonly moderationService: ModerationService,
+    private readonly notificationsService: NotificationsService,
     @InjectRepository(UserEntity) private readonly userRepo: Repository<UserEntity>,
     @InjectRepository(ProviderProfileEntity) private readonly providerRepo: Repository<ProviderProfileEntity>,
     @InjectRepository(PayoutEntity) private readonly payoutRepo: Repository<PayoutEntity>,
@@ -44,7 +46,15 @@ export class AdminService {
   }
 
   async approveProvider(id: string): Promise<void> {
+    const profile = await this.providerRepo.findOne({ where: { id } });
+    if (!profile) return;
     await this.providerRepo.update(id, { isApproved: true });
+    this.notificationsService.sendPush(
+      profile.userId,
+      'Account Approved',
+      'Your provider account has been approved. You can now go online and accept sessions.',
+      { type: 'provider_approved' },
+    ).catch(() => { });
   }
 
   async listPayouts(query: { page?: number; limit?: number; status?: string }) {

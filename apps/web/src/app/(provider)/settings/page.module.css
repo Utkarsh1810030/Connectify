@@ -43,9 +43,20 @@
   transition: opacity 0.15s;
 }
 
-.online { background: #dcfce7; color: #16a34a; }
-.offline { background: #f3f4f6; color: #374151; }
-.onlineBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+.online {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.offline {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.onlineBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
 .form {
   display: flex;
@@ -89,7 +100,9 @@
   transition: border-color 0.15s;
 }
 
-.input:focus { border-color: #7c3aed; }
+.input:focus {
+  border-color: #7c3aed;
+}
 
 .textarea {
   padding: 0.625rem 0.75rem;
@@ -101,7 +114,9 @@
   transition: border-color 0.15s;
 }
 
-.textarea:focus { border-color: #7c3aed; }
+.textarea:focus {
+  border-color: #7c3aed;
+}
 
 .ratesGrid {
   display: grid;
@@ -127,8 +142,17 @@
   text-transform: capitalize;
 }
 
-.chip:hover { border-color: #7c3aed; color: #7c3aed; }
-.chipActive { background: #ede9fe; border-color: #7c3aed; color: #7c3aed; font-weight: 600; }
+.chip:hover {
+  border-color: #7c3aed;
+  color: #7c3aed;
+}
+
+.chipActive {
+  background: #ede9fe;
+  border-color: #7c3aed;
+  color: #7c3aed;
+  font-weight: 600;
+}
 
 .saveBtn {
   background: #7c3aed;
@@ -142,8 +166,14 @@
   transition: background 0.15s;
 }
 
-.saveBtn:hover:not(:disabled) { background: #6d28d9; }
-.saveBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+.saveBtn:hover:not(:disabled) {
+  background: #6d28d9;
+}
+
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
 .error {
   color: #dc2626;

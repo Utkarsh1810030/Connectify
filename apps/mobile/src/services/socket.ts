@@ -58,6 +58,22 @@ class SocketService {
   onLowBalance(cb: () => void) {
     this.sessionSocket?.on('low_balance_warning', cb);
   }
+
+  emitPauseSession(sessionId: string) {
+    this.sessionSocket?.emit('pause_session', { sessionId });
+  }
+
+  emitResumeSession(sessionId: string) {
+    this.sessionSocket?.emit('resume_session', { sessionId });
+  }
+
+  onSessionPaused(cb: () => void) {
+    this.sessionSocket?.on('session_paused', cb);
+  }
+
+  onSessionResumed(cb: () => void) {
+    this.sessionSocket?.on('session_resumed', cb);
+  }
 }
 
 export const socketService = new SocketService();
