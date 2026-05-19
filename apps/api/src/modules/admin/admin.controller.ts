@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Patch, Param, Query, Body, UseGuards } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { ModerationService } from '../moderation/moderation.service';
+import { SessionsService } from '../sessions/sessions.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
@@ -12,6 +13,7 @@ export class AdminController {
   constructor(
     private readonly adminService: AdminService,
     private readonly moderationService: ModerationService,
+    private readonly sessionsService: SessionsService,
   ) { }
 
   @Get('users')
@@ -52,5 +54,13 @@ export class AdminController {
   @Post('payouts/:id/process')
   processPayout(@Param('id') id: string, @Body('bankReference') bankReference: string) {
     return this.adminService.processPayout(id, bankReference);
+  }
+
+  @Get('sessions')
+  listSessions(@Query('page') page?: string, @Query('limit') limit?: string) {
+    return this.sessionsService.findAll({
+      page: page ? parseInt(page, 10) : undefined,
+      limit: limit ? parseInt(limit, 10) : undefined,
+    });
   }
 }

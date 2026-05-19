@@ -19,6 +19,12 @@ export class ProvidersController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  getMyProfile(@CurrentUser() user: UserEntity) {
+    return this.providersService.findByUserId(user.id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.providersService.findById(id);

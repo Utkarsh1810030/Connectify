@@ -72,4 +72,26 @@ export class BillingController {
     await this.razorpayService.handleWebhook(req.body, signature);
     return { received: true };
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('payout/request')
+  requestPayout(
+    @CurrentUser() user: { id: string },
+    @Body('amount') amount: number,
+  ) {
+    return this.walletService.requestPayout(user.id, amount);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('payouts')
+  getPayouts(
+    @CurrentUser() user: { id: string },
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    return this.walletService.getPayouts(user.id, {
+      page: page ? parseInt(page, 10) : undefined,
+      limit: limit ? parseInt(limit, 10) : undefined,
+    });
+  }
 }

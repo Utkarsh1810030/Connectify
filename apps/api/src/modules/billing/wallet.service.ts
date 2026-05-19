@@ -1,8 +1,9 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { WalletEntity } from './entities/wallet.entity';
 import { TransactionEntity } from './entities/transaction.entity';
+import { PayoutEntity } from './entities/payout.entity';
 import { CACHE_SERVICE, CacheKeys, ICacheService } from '../../infrastructure/cache/cache.interface';
 import { InsufficientBalanceException } from './exceptions/insufficient-balance.exception';
 import { roundMoney } from '@connectify/utils';
@@ -12,6 +13,7 @@ export class WalletService {
   constructor(
     @InjectRepository(WalletEntity) private readonly walletRepo: Repository<WalletEntity>,
     @InjectRepository(TransactionEntity) private readonly txRepo: Repository<TransactionEntity>,
+    @InjectRepository(PayoutEntity) private readonly payoutRepo: Repository<PayoutEntity>,
     @Inject(CACHE_SERVICE) private readonly cache: ICacheService,
     private readonly dataSource: DataSource,
   ) { }
@@ -81,6 +83,25 @@ export class WalletService {
     const wallet = await this.getOrCreateWallet(userId);
     const [data, total] = await this.txRepo.findAndCount({
       where: { walletId: wallet.id },
+      order: { createdAt: 'DESC' },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+    const { buildPagination } = await import('@connectify/utils');
+    return { data, ...buildPagination(page, limit, total) };
+  }
+
+  async requestPayout(userId: string, amount: number): Promise<PayoutEntity> {
+    const balance = await this.getBalance(userId);
+    if (balance < amount) throw new BadRequestException('Insufficient wallet balance');
+    if (amount < 100) throw new BadRequestException('Minimum payout is ₹100');
+    return this.payoutRepo.save(this.payoutRepo.create({ providerId: userId, amount, status: 'pending' }));
+  }
+
+  async getPayouts(userId: string, query: { page?: number; limit?: number }) {
+    const { page = 1, limit = 20 } = query;
+    const [data, total] = await this.payoutRepo.findAndCount({
+      where: { providerId: userId },
       order: { createdAt: 'DESC' },
       skip: (page - 1) * limit,
       take: limit,

@@ -120,4 +120,15 @@ export class SessionsService {
   async getActive(userId: string): Promise<ActiveSessionState | null> {
     return this.cache.get<ActiveSessionState>(CacheKeys.activeSession(userId));
   }
+
+  async findAll(query: { page?: number; limit?: number }) {
+    const { page = 1, limit = 20 } = query;
+    const [data, total] = await this.repo.findAndCount({
+      order: { createdAt: 'DESC' },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+    const { buildPagination } = await import('@connectify/utils');
+    return { data, ...buildPagination(page, limit, total) };
+  }
 }

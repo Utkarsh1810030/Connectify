@@ -1,0 +1,48 @@
+.shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.logo {
+  font-size: 16px;
+  font-weight: 700;
+  color: #7c3aed;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.navItem {
+  display: block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #6b7280;
+  transition: background 0.15s;
+}
+
+.navItem:hover {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+.content {
+  flex: 1;
+  padding: 40px;
+}

@@ -1,0 +1,122 @@
+.page {
+  max-width: 760px;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.summaryCard {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.summaryLabel {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 0 0 0.5rem;
+}
+
+.summaryValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.75rem;
+}
+
+.payoutBtn {
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.payoutForm {
+  margin-top: 0.5rem;
+}
+
+.cancelBtn, .confirmBtn {
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+}
+
+.confirmBtn {
+  background: #7c3aed;
+  border: none;
+  color: #fff;
+}
+
+.confirmBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.table {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.tableHeader, .tableRow {
+  display: grid;
+  grid-template-columns: 80px 100px 100px 120px 1fr;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.85rem;
+}
+
+.tableHeader {
+  background: #f9fafb;
+  font-weight: 700;
+  color: #374151;
+}
+
+.tableRow {
+  border-top: 1px solid #f3f4f6;
+  color: #374151;
+}
+
+.tableRow:hover {
+  background: #fafafa;
+}
+
+.earning {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.empty {
+  padding: 2rem;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.9rem;
+}

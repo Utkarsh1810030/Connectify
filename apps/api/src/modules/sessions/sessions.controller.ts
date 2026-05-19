@@ -41,6 +41,18 @@ export class SessionsController {
     });
   }
 
+  @Get('as-provider')
+  listAsProvider(
+    @CurrentUser() user: { id: string },
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    return this.sessionsService.findByProvider(user.id, {
+      page: page ? parseInt(page, 10) : undefined,
+      limit: limit ? parseInt(limit, 10) : undefined,
+    });
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.sessionsService.findById(id);

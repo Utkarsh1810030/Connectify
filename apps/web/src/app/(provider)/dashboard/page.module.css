@@ -1,0 +1,125 @@
+.page {
+  max-width: 720px;
+}
+
+.state {
+  padding: 4rem 0;
+  text-align: center;
+  color: #6b7280;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.setupBtn {
+  background: #7c3aed;
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  margin-right: 0.5rem;
+}
+
+.pendingBadge {
+  font-size: 0.75rem;
+  background: #fef3c7;
+  color: #d97706;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 0 0 0.4rem;
+}
+
+.statValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.section {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.sectionHeader h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.viewAll {
+  font-size: 0.85rem;
+  color: #7c3aed;
+  font-weight: 500;
+}
+
+.sessionRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-top: 1px solid #f3f4f6;
+  font-size: 0.9rem;
+}
+
+.sessionType {
+  text-transform: capitalize;
+  color: #374151;
+  font-weight: 500;
+}
+
+.earning {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.empty {
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
