@@ -7,9 +7,11 @@ import { PayoutEntity } from './entities/payout.entity';
 import { WalletService } from './wallet.service';
 import { BillingEngineService } from './billing-engine.service';
 import { RazorpayService } from './razorpay.service';
+import { BillingController } from './billing.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([WalletEntity, TransactionEntity, PayoutEntity]), ConfigModule],
+  controllers: [BillingController],
   providers: [WalletService, BillingEngineService, RazorpayService],
   exports: [WalletService, BillingEngineService, RazorpayService],
 })

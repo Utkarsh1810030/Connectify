@@ -1,6 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import AppLayout from '../src/app/(app)/layout';
 
+const mockReplace = jest.fn();
+
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({ replace: mockReplace }),
+}));
+
 jest.mock('next/link', () => {
   const Link = ({ href, children, className }: { href: string; children: React.ReactNode; className?: string }) => (
     <a href={href} className={className}>{children}</a>
