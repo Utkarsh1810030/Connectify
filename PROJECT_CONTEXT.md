@@ -207,10 +207,13 @@ connectify/
 
 ## 10. Known Infrastructure Quirks (CRITICAL — saves hours of debugging)
 
-### macOS + Docker PostgreSQL ECONNREFUSED
-- macOS resolves `localhost` → `::1` (IPv6); Docker Postgres binds `127.0.0.1` only
-- **Fix:** Use `127.0.0.1` not `localhost` in `DATABASE_URL`
+### macOS + Docker: use 127.0.0.1 for ALL services (CRITICAL)
+- macOS resolves `localhost` → `::1` (IPv6) first; Docker-mapped services bind IPv4 only
+- Affects PostgreSQL, Redis — any service mapped via Docker port binding
+- **Rule:** Always use `127.0.0.1` in `.env`, never `localhost`
 - `DATABASE_URL=postgresql://connectify:connectify_dev@127.0.0.1:5432/connectify`
+- `REDIS_URL=redis://127.0.0.1:6379`
+- Error signature: `Reached the max retries per request limit` (ioredis) or `ECONNREFUSED ::1`
 
 ### MongoDB Docker Replica Set Topology Hang
 - Docker replica set advertises internal hostname `mongo:27017`
