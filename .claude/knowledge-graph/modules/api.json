@@ -1,0 +1,1203 @@
+{
+  "module": "api",
+  "path": "apps/api",
+  "notes": "NestJS monolith. All sub-module paths are relative to apps/api/src/. Internal imports use relative paths only; no path aliases. Workspace packages referenced as @connectify/types, @connectify/config, @connectify/utils.",
+  "internalCircularDeps": [
+    "modules/sessions <-> modules/calling (resolved with forwardRef)"
+  ],
+  "files": [
+    {
+      "path": "apps/api/src/main.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/app.module.ts"
+        ],
+        "external": [
+          "@nestjs/core",
+          "@nestjs/common",
+          "helmet"
+        ]
+      },
+      "exports": [
+        "bootstrap (default entry)"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/api/src/app.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/app.controller.ts",
+          "apps/api/src/modules/auth/auth.module.ts",
+          "apps/api/src/modules/users/users.module.ts",
+          "apps/api/src/modules/providers/providers.module.ts",
+          "apps/api/src/modules/sessions/sessions.module.ts",
+          "apps/api/src/modules/billing/billing.module.ts",
+          "apps/api/src/modules/chat/chat.module.ts",
+          "apps/api/src/modules/calling/calling.module.ts",
+          "apps/api/src/modules/ratings/ratings.module.ts",
+          "apps/api/src/modules/moderation/moderation.module.ts",
+          "apps/api/src/modules/notifications/notifications.module.ts",
+          "apps/api/src/modules/admin/admin.module.ts",
+          "apps/api/src/infrastructure/infrastructure.module.ts",
+          "apps/api/src/gateways/gateways.module.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/config",
+          "@nestjs/typeorm",
+          "@nestjs/mongoose",
+          "@nestjs/throttler",
+          "@nestjs/schedule",
+          "@connectify/config"
+        ]
+      },
+      "exports": [
+        "AppModule"
+      ],
+      "importedBy": [
+        "apps/api/src/main.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/app.controller.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "@nestjs/common"
+        ]
+      },
+      "exports": [
+        "AppController"
+      ],
+      "importedBy": [
+        "apps/api/src/app.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/infrastructure/infrastructure.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/infrastructure/event-bus/event-bus.module.ts",
+          "apps/api/src/infrastructure/cache/cache.module.ts",
+          "apps/api/src/infrastructure/feature-flags/feature-flags.module.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/config"
+        ]
+      },
+      "exports": [
+        "InfrastructureModule (Global)"
+      ],
+      "importedBy": [
+        "apps/api/src/app.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/infrastructure/cache/cache.interface.ts",
+      "imports": {
+        "internal": [],
+        "external": []
+      },
+      "exports": [
+        "ICacheService",
+        "CACHE_SERVICE (token)",
+        "CacheKeys"
+      ],
+      "importedBy": [
+        "apps/api/src/infrastructure/cache/cache.module.ts",
+        "apps/api/src/infrastructure/cache/redis-cache.service.ts",
+        "apps/api/src/infrastructure/feature-flags/feature-flags.service.ts",
+        "apps/api/src/modules/auth/auth.service.ts",
+        "apps/api/src/modules/billing/billing-engine.service.ts",
+        "apps/api/src/modules/billing/wallet.service.ts",
+        "apps/api/src/modules/calling/calling.service.ts",
+        "apps/api/src/modules/providers/providers.service.ts",
+        "apps/api/src/modules/sessions/sessions.service.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/infrastructure/cache/cache.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/infrastructure/cache/redis-cache.service.ts",
+          "apps/api/src/infrastructure/cache/cache.interface.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/config"
+        ]
+      },
+      "exports": [
+        "CacheModule"
+      ],
+      "importedBy": [
+        "apps/api/src/infrastructure/infrastructure.module.ts",
+        "apps/api/src/infrastructure/feature-flags/feature-flags.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/infrastructure/cache/redis-cache.service.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/infrastructure/cache/cache.interface.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/config",
+          "ioredis"
+        ]
+      },
+      "exports": [
+        "RedisCacheService"
+      ],
+      "importedBy": [
+        "apps/api/src/infrastructure/cache/cache.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/infrastructure/event-bus/event-bus.interface.ts",
+      "imports": {
+        "internal": [],
+        "external": []
+      },
+      "exports": [
+        "IEventBus",
+        "EVENT_BUS (token)"
+      ],
+      "importedBy": [
+        "apps/api/src/infrastructure/event-bus/event-bus.module.ts",
+        "apps/api/src/infrastructure/event-bus/local-event-bus.ts",
+        "apps/api/src/gateways/session.gateway.ts",
+        "apps/api/src/modules/billing/billing-engine.service.ts",
+        "apps/api/src/modules/moderation/moderation.service.ts",
+        "apps/api/src/modules/sessions/sessions.service.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/infrastructure/event-bus/event-bus.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/infrastructure/event-bus/local-event-bus.ts",
+          "apps/api/src/infrastructure/event-bus/event-bus.interface.ts"
+        ],
+        "external": [
+          "@nestjs/common"
+        ]
+      },
+      "exports": [
+        "EventBusModule"
+      ],
+      "importedBy": [
+        "apps/api/src/infrastructure/infrastructure.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/infrastructure/event-bus/local-event-bus.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/infrastructure/event-bus/event-bus.interface.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "eventemitter2"
+        ]
+      },
+      "exports": [
+        "LocalEventBus"
+      ],
+      "importedBy": [
+        "apps/api/src/infrastructure/event-bus/event-bus.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/infrastructure/feature-flags/feature-flags.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/infrastructure/cache/cache.module.ts",
+          "apps/api/src/infrastructure/feature-flags/feature-flags.service.ts"
+        ],
+        "external": [
+          "@nestjs/common"
+        ]
+      },
+      "exports": [
+        "FeatureFlagsModule"
+      ],
+      "importedBy": [
+        "apps/api/src/infrastructure/infrastructure.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/infrastructure/feature-flags/feature-flags.service.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/infrastructure/cache/cache.interface.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/typeorm",
+          "typeorm"
+        ]
+      },
+      "exports": [
+        "FeatureFlagsService"
+      ],
+      "importedBy": [
+        "apps/api/src/infrastructure/feature-flags/feature-flags.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/infrastructure/database/postgres/datasource.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "typeorm"
+        ]
+      },
+      "exports": [
+        "AppDataSource"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/api/src/infrastructure/database/postgres/migrations/1716000000000-InitialSchema.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "typeorm"
+        ]
+      },
+      "exports": [
+        "InitialSchema1716000000000"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/api/src/gateways/gateways.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/gateways/chat.gateway.ts",
+          "apps/api/src/gateways/session.gateway.ts",
+          "apps/api/src/gateways/presence.gateway.ts",
+          "apps/api/src/modules/chat/chat.module.ts",
+          "apps/api/src/modules/sessions/sessions.module.ts",
+          "apps/api/src/modules/providers/providers.module.ts"
+        ],
+        "external": [
+          "@nestjs/common"
+        ]
+      },
+      "exports": [
+        "GatewaysModule"
+      ],
+      "importedBy": [
+        "apps/api/src/app.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/gateways/chat.gateway.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/chat/chat.service.ts",
+          "apps/api/src/gateways/guards/ws-jwt.guard.ts"
+        ],
+        "external": [
+          "@nestjs/websockets",
+          "@nestjs/common",
+          "socket.io"
+        ]
+      },
+      "exports": [
+        "ChatGateway"
+      ],
+      "importedBy": [
+        "apps/api/src/gateways/gateways.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/gateways/session.gateway.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/sessions/sessions.service.ts",
+          "apps/api/src/infrastructure/event-bus/event-bus.interface.ts"
+        ],
+        "external": [
+          "@nestjs/websockets",
+          "@nestjs/common",
+          "socket.io"
+        ]
+      },
+      "exports": [
+        "SessionGateway"
+      ],
+      "importedBy": [
+        "apps/api/src/gateways/gateways.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/gateways/presence.gateway.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/providers/providers.service.ts"
+        ],
+        "external": [
+          "@nestjs/websockets",
+          "socket.io"
+        ]
+      },
+      "exports": [
+        "PresenceGateway"
+      ],
+      "importedBy": [
+        "apps/api/src/gateways/gateways.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/gateways/guards/ws-jwt.guard.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "@nestjs/common"
+        ]
+      },
+      "exports": [
+        "WsJwtGuard"
+      ],
+      "importedBy": [
+        "apps/api/src/gateways/chat.gateway.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/auth/auth.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/auth/auth.service.ts",
+          "apps/api/src/modules/auth/auth.controller.ts",
+          "apps/api/src/modules/auth/strategies/jwt.strategy.ts",
+          "apps/api/src/modules/users/users.module.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/jwt",
+          "@nestjs/passport",
+          "@nestjs/config"
+        ]
+      },
+      "exports": [
+        "AuthModule"
+      ],
+      "importedBy": [
+        "apps/api/src/app.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/auth/auth.service.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/infrastructure/cache/cache.interface.ts",
+          "apps/api/src/modules/users/users.service.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/jwt",
+          "@nestjs/config",
+          "@connectify/types",
+          "@connectify/utils"
+        ]
+      },
+      "exports": [
+        "AuthService"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/auth/auth.module.ts",
+        "apps/api/src/modules/auth/auth.controller.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/auth/auth.controller.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/auth/auth.service.ts",
+          "apps/api/src/modules/auth/dto/otp-request.dto.ts",
+          "apps/api/src/modules/auth/dto/otp-verify.dto.ts",
+          "apps/api/src/modules/auth/guards/jwt-auth.guard.ts",
+          "apps/api/src/modules/auth/decorators/current-user.decorator.ts"
+        ],
+        "external": [
+          "@nestjs/common"
+        ]
+      },
+      "exports": [
+        "AuthController"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/auth/auth.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/auth/strategies/jwt.strategy.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/users/users.service.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/passport",
+          "passport-jwt",
+          "@nestjs/config"
+        ]
+      },
+      "exports": [
+        "JwtStrategy"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/auth/auth.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/auth/guards/jwt-auth.guard.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/passport"
+        ]
+      },
+      "exports": [
+        "JwtAuthGuard"
+      ],
+      "importedBy": [
+        "many controllers"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/auth/guards/roles.guard.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/auth/decorators/roles.decorator.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/core",
+          "@connectify/types"
+        ]
+      },
+      "exports": [
+        "RolesGuard"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/users/users.controller.ts",
+        "apps/api/src/modules/admin/admin.controller.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/auth/decorators/current-user.decorator.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "@nestjs/common"
+        ]
+      },
+      "exports": [
+        "CurrentUser"
+      ],
+      "importedBy": [
+        "many controllers"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/auth/decorators/roles.decorator.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "@nestjs/common",
+          "@connectify/types"
+        ]
+      },
+      "exports": [
+        "Roles",
+        "ROLES_KEY"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/auth/guards/roles.guard.ts",
+        "many controllers"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/users/users.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/users/entities/user.entity.ts",
+          "apps/api/src/modules/users/users.service.ts",
+          "apps/api/src/modules/users/users.controller.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/typeorm"
+        ]
+      },
+      "exports": [
+        "UsersModule"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/auth/auth.module.ts",
+        "apps/api/src/modules/admin/admin.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/users/users.service.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/users/entities/user.entity.ts",
+          "apps/api/src/modules/users/dto/update-user.dto.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/typeorm",
+          "typeorm"
+        ]
+      },
+      "exports": [
+        "UsersService"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/auth/auth.service.ts",
+        "apps/api/src/modules/auth/strategies/jwt.strategy.ts",
+        "apps/api/src/modules/admin/admin.service.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/users/users.controller.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/users/users.service.ts",
+          "apps/api/src/modules/users/dto/update-user.dto.ts",
+          "apps/api/src/modules/users/entities/user.entity.ts",
+          "apps/api/src/modules/auth/guards/jwt-auth.guard.ts",
+          "apps/api/src/modules/auth/guards/roles.guard.ts",
+          "apps/api/src/modules/auth/decorators/current-user.decorator.ts",
+          "apps/api/src/modules/auth/decorators/roles.decorator.ts"
+        ],
+        "external": [
+          "@nestjs/common"
+        ]
+      },
+      "exports": [
+        "UsersController"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/users/users.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/users/entities/user.entity.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "typeorm",
+          "@connectify/types"
+        ]
+      },
+      "exports": [
+        "UserEntity"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/users/users.service.ts",
+        "apps/api/src/modules/users/users.controller.ts",
+        "apps/api/src/modules/providers/entities/provider-profile.entity.ts",
+        "apps/api/src/modules/providers/providers.controller.ts",
+        "apps/api/src/modules/notifications/notifications.module.ts",
+        "apps/api/src/modules/notifications/notifications.service.ts",
+        "apps/api/src/modules/admin/admin.module.ts",
+        "apps/api/src/modules/admin/admin.service.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/providers/providers.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/providers/entities/provider-profile.entity.ts",
+          "apps/api/src/modules/providers/providers.service.ts",
+          "apps/api/src/modules/providers/providers.controller.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/typeorm"
+        ]
+      },
+      "exports": [
+        "ProvidersModule"
+      ],
+      "importedBy": [
+        "apps/api/src/app.module.ts",
+        "apps/api/src/gateways/gateways.module.ts",
+        "apps/api/src/modules/sessions/sessions.module.ts",
+        "apps/api/src/modules/ratings/ratings.module.ts",
+        "apps/api/src/modules/admin/admin.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/providers/providers.service.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/providers/entities/provider-profile.entity.ts",
+          "apps/api/src/modules/providers/dto/create-provider-profile.dto.ts",
+          "apps/api/src/modules/providers/dto/update-provider-profile.dto.ts",
+          "apps/api/src/infrastructure/cache/cache.interface.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/typeorm",
+          "typeorm",
+          "@connectify/utils"
+        ]
+      },
+      "exports": [
+        "ProvidersService"
+      ],
+      "importedBy": [
+        "apps/api/src/gateways/presence.gateway.ts",
+        "apps/api/src/modules/sessions/sessions.service.ts",
+        "apps/api/src/modules/ratings/ratings.service.ts",
+        "apps/api/src/modules/admin/admin.controller.ts",
+        "apps/api/src/modules/admin/admin.service.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/providers/entities/provider-profile.entity.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/users/entities/user.entity.ts"
+        ],
+        "external": [
+          "typeorm"
+        ]
+      },
+      "exports": [
+        "ProviderProfileEntity"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/providers/providers.service.ts",
+        "apps/api/src/modules/admin/admin.module.ts",
+        "apps/api/src/modules/admin/admin.service.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/sessions/sessions.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/sessions/entities/session.entity.ts",
+          "apps/api/src/modules/sessions/sessions.service.ts",
+          "apps/api/src/modules/sessions/sessions.controller.ts",
+          "apps/api/src/modules/billing/billing.module.ts",
+          "apps/api/src/modules/providers/providers.module.ts",
+          "apps/api/src/modules/calling/calling.module.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/typeorm"
+        ]
+      },
+      "exports": [
+        "SessionsModule"
+      ],
+      "importedBy": [
+        "apps/api/src/app.module.ts",
+        "apps/api/src/gateways/gateways.module.ts",
+        "apps/api/src/modules/chat/chat.module.ts",
+        "apps/api/src/modules/ratings/ratings.module.ts",
+        "apps/api/src/modules/admin/admin.module.ts"
+      ],
+      "notes": "circular with CallingModule, resolved with forwardRef"
+    },
+    {
+      "path": "apps/api/src/modules/sessions/sessions.service.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/sessions/entities/session.entity.ts",
+          "apps/api/src/modules/sessions/dto/start-session.dto.ts",
+          "apps/api/src/modules/providers/providers.service.ts",
+          "apps/api/src/modules/billing/billing-engine.service.ts",
+          "apps/api/src/modules/billing/wallet.service.ts",
+          "apps/api/src/modules/calling/calling.service.ts",
+          "apps/api/src/infrastructure/event-bus/event-bus.interface.ts",
+          "apps/api/src/infrastructure/cache/cache.interface.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/typeorm",
+          "typeorm",
+          "@nestjs/config",
+          "@connectify/types",
+          "@connectify/utils"
+        ]
+      },
+      "exports": [
+        "SessionsService"
+      ],
+      "importedBy": [
+        "apps/api/src/gateways/session.gateway.ts",
+        "apps/api/src/modules/sessions/sessions.controller.ts",
+        "apps/api/src/modules/chat/chat.controller.ts",
+        "apps/api/src/modules/calling/calling.controller.ts",
+        "apps/api/src/modules/ratings/ratings.service.ts",
+        "apps/api/src/modules/admin/admin.controller.ts",
+        "apps/api/src/modules/admin/admin.service.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/billing/billing.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/billing/entities/wallet.entity.ts",
+          "apps/api/src/modules/billing/entities/transaction.entity.ts",
+          "apps/api/src/modules/billing/entities/payout.entity.ts",
+          "apps/api/src/modules/billing/wallet.service.ts",
+          "apps/api/src/modules/billing/billing-engine.service.ts",
+          "apps/api/src/modules/billing/razorpay.service.ts",
+          "apps/api/src/modules/billing/billing.controller.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/typeorm",
+          "@nestjs/config"
+        ]
+      },
+      "exports": [
+        "BillingModule"
+      ],
+      "importedBy": [
+        "apps/api/src/app.module.ts",
+        "apps/api/src/modules/sessions/sessions.module.ts",
+        "apps/api/src/modules/admin/admin.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/billing/billing-engine.service.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/billing/wallet.service.ts",
+          "apps/api/src/infrastructure/event-bus/event-bus.interface.ts",
+          "apps/api/src/infrastructure/cache/cache.interface.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/config",
+          "@connectify/types",
+          "@connectify/utils"
+        ]
+      },
+      "exports": [
+        "BillingEngineService"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/sessions/sessions.service.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/billing/wallet.service.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/billing/entities/wallet.entity.ts",
+          "apps/api/src/modules/billing/entities/transaction.entity.ts",
+          "apps/api/src/modules/billing/entities/payout.entity.ts",
+          "apps/api/src/modules/billing/exceptions/insufficient-balance.exception.ts",
+          "apps/api/src/infrastructure/cache/cache.interface.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/typeorm",
+          "typeorm",
+          "@connectify/utils"
+        ]
+      },
+      "exports": [
+        "WalletService"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/sessions/sessions.service.ts",
+        "apps/api/src/modules/billing/billing-engine.service.ts",
+        "apps/api/src/modules/billing/razorpay.service.ts",
+        "apps/api/src/modules/billing/billing.controller.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/billing/razorpay.service.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/billing/wallet.service.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/config",
+          "razorpay"
+        ]
+      },
+      "exports": [
+        "RazorpayService"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/billing/billing.controller.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/calling/calling.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/calling/calling.service.ts",
+          "apps/api/src/modules/calling/calling.controller.ts",
+          "apps/api/src/modules/sessions/sessions.module.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/config"
+        ]
+      },
+      "exports": [
+        "CallingModule"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/sessions/sessions.module.ts"
+      ],
+      "notes": "circular with SessionsModule, resolved with forwardRef"
+    },
+    {
+      "path": "apps/api/src/modules/calling/calling.service.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/infrastructure/cache/cache.interface.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/config",
+          "agora-token"
+        ]
+      },
+      "exports": [
+        "CallingService"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/sessions/sessions.service.ts",
+        "apps/api/src/modules/calling/calling.controller.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/calling/calling.controller.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/calling/calling.service.ts",
+          "apps/api/src/modules/sessions/sessions.service.ts",
+          "apps/api/src/modules/auth/guards/jwt-auth.guard.ts",
+          "apps/api/src/modules/auth/decorators/current-user.decorator.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/config"
+        ]
+      },
+      "exports": [
+        "CallingController"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/calling/calling.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/chat/chat.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/chat/schemas/conversation.schema.ts",
+          "apps/api/src/modules/chat/schemas/message.schema.ts",
+          "apps/api/src/modules/chat/chat.service.ts",
+          "apps/api/src/modules/chat/chat.controller.ts",
+          "apps/api/src/modules/moderation/moderation.module.ts",
+          "apps/api/src/modules/sessions/sessions.module.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/mongoose"
+        ]
+      },
+      "exports": [
+        "ChatModule"
+      ],
+      "importedBy": [
+        "apps/api/src/app.module.ts",
+        "apps/api/src/gateways/gateways.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/chat/chat.service.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/chat/schemas/conversation.schema.ts",
+          "apps/api/src/modules/chat/schemas/message.schema.ts",
+          "apps/api/src/modules/moderation/moderation.service.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/mongoose",
+          "mongoose"
+        ]
+      },
+      "exports": [
+        "ChatService"
+      ],
+      "importedBy": [
+        "apps/api/src/gateways/chat.gateway.ts",
+        "apps/api/src/modules/chat/chat.controller.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/chat/chat.controller.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/chat/chat.service.ts",
+          "apps/api/src/modules/sessions/sessions.service.ts",
+          "apps/api/src/modules/auth/guards/jwt-auth.guard.ts",
+          "apps/api/src/modules/auth/decorators/current-user.decorator.ts"
+        ],
+        "external": [
+          "@nestjs/common"
+        ]
+      },
+      "exports": [
+        "ChatController"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/chat/chat.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/moderation/moderation.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/moderation/entities/moderation-log.entity.ts",
+          "apps/api/src/modules/moderation/entities/report.entity.ts",
+          "apps/api/src/modules/moderation/content-filter.service.ts",
+          "apps/api/src/modules/moderation/moderation.service.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/typeorm"
+        ]
+      },
+      "exports": [
+        "ModerationModule"
+      ],
+      "importedBy": [
+        "apps/api/src/app.module.ts",
+        "apps/api/src/modules/chat/chat.module.ts",
+        "apps/api/src/modules/admin/admin.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/moderation/moderation.service.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/moderation/entities/moderation-log.entity.ts",
+          "apps/api/src/modules/moderation/entities/report.entity.ts",
+          "apps/api/src/modules/moderation/content-filter.service.ts",
+          "apps/api/src/infrastructure/event-bus/event-bus.interface.ts",
+          "apps/api/src/modules/moderation/dto/create-report.dto.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/typeorm",
+          "typeorm",
+          "@connectify/utils"
+        ]
+      },
+      "exports": [
+        "ModerationService"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/chat/chat.service.ts",
+        "apps/api/src/modules/admin/admin.controller.ts",
+        "apps/api/src/modules/admin/admin.service.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/moderation/content-filter.service.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "@nestjs/common",
+          "@connectify/types"
+        ]
+      },
+      "exports": [
+        "ContentFilterService"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/moderation/moderation.module.ts",
+        "apps/api/src/modules/moderation/moderation.service.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/ratings/ratings.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/ratings/entities/rating.entity.ts",
+          "apps/api/src/modules/ratings/ratings.service.ts",
+          "apps/api/src/modules/ratings/ratings.controller.ts",
+          "apps/api/src/modules/providers/providers.module.ts",
+          "apps/api/src/modules/sessions/sessions.module.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/typeorm"
+        ]
+      },
+      "exports": [
+        "RatingsModule"
+      ],
+      "importedBy": [
+        "apps/api/src/app.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/ratings/ratings.service.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/ratings/entities/rating.entity.ts",
+          "apps/api/src/modules/ratings/dto/create-rating.dto.ts",
+          "apps/api/src/modules/providers/providers.service.ts",
+          "apps/api/src/modules/sessions/sessions.service.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/typeorm",
+          "typeorm"
+        ]
+      },
+      "exports": [
+        "RatingsService"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/ratings/ratings.controller.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/notifications/notifications.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/notifications/notifications.service.ts",
+          "apps/api/src/modules/users/entities/user.entity.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/config",
+          "@nestjs/typeorm",
+          "firebase-admin"
+        ]
+      },
+      "exports": [
+        "NotificationsModule"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/admin/admin.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/notifications/notifications.service.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/users/entities/user.entity.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/config",
+          "@nestjs/typeorm",
+          "typeorm",
+          "firebase-admin"
+        ]
+      },
+      "exports": [
+        "NotificationsService"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/admin/admin.service.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/admin/admin.module.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/admin/admin.service.ts",
+          "apps/api/src/modules/admin/admin.controller.ts",
+          "apps/api/src/modules/users/users.module.ts",
+          "apps/api/src/modules/providers/providers.module.ts",
+          "apps/api/src/modules/sessions/sessions.module.ts",
+          "apps/api/src/modules/moderation/moderation.module.ts",
+          "apps/api/src/modules/billing/billing.module.ts",
+          "apps/api/src/modules/notifications/notifications.module.ts",
+          "apps/api/src/modules/users/entities/user.entity.ts",
+          "apps/api/src/modules/providers/entities/provider-profile.entity.ts",
+          "apps/api/src/modules/billing/entities/payout.entity.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/typeorm"
+        ]
+      },
+      "exports": [
+        "AdminModule"
+      ],
+      "importedBy": [
+        "apps/api/src/app.module.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/admin/admin.service.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/users/users.service.ts",
+          "apps/api/src/modules/providers/providers.service.ts",
+          "apps/api/src/modules/sessions/sessions.service.ts",
+          "apps/api/src/modules/moderation/moderation.service.ts",
+          "apps/api/src/modules/notifications/notifications.service.ts",
+          "apps/api/src/modules/users/entities/user.entity.ts",
+          "apps/api/src/modules/providers/entities/provider-profile.entity.ts",
+          "apps/api/src/modules/billing/entities/payout.entity.ts"
+        ],
+        "external": [
+          "@nestjs/common",
+          "@nestjs/typeorm",
+          "typeorm"
+        ]
+      },
+      "exports": [
+        "AdminService"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/admin/admin.controller.ts"
+      ]
+    },
+    {
+      "path": "apps/api/src/modules/admin/admin.controller.ts",
+      "imports": {
+        "internal": [
+          "apps/api/src/modules/admin/admin.service.ts",
+          "apps/api/src/modules/moderation/moderation.service.ts",
+          "apps/api/src/modules/sessions/sessions.service.ts",
+          "apps/api/src/modules/providers/providers.service.ts",
+          "apps/api/src/modules/auth/guards/jwt-auth.guard.ts",
+          "apps/api/src/modules/auth/guards/roles.guard.ts",
+          "apps/api/src/modules/auth/decorators/roles.decorator.ts"
+        ],
+        "external": [
+          "@nestjs/common"
+        ]
+      },
+      "exports": [
+        "AdminController"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/admin/admin.module.ts"
+      ]
+    }
+  ]
+}

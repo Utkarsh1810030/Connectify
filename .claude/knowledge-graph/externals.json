@@ -1,0 +1,269 @@
+{
+  "packages": {
+    "@nestjs/common": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 40
+    },
+    "@nestjs/core": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 4
+    },
+    "@nestjs/config": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 10
+    },
+    "@nestjs/jwt": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 2
+    },
+    "@nestjs/mongoose": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 3
+    },
+    "@nestjs/passport": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 3
+    },
+    "@nestjs/platform-express": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 1
+    },
+    "@nestjs/platform-socket.io": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 1
+    },
+    "@nestjs/schedule": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 1
+    },
+    "@nestjs/throttler": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 1
+    },
+    "@nestjs/typeorm": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 10
+    },
+    "@nestjs/websockets": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 4
+    },
+    "@nestjs/mapped-types": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 1
+    },
+    "typeorm": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 15
+    },
+    "mongoose": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 4
+    },
+    "ioredis": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 1
+    },
+    "socket.io": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 4
+    },
+    "passport-jwt": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 1
+    },
+    "firebase-admin": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 2
+    },
+    "agora-token": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 1
+    },
+    "razorpay": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 1
+    },
+    "zod": {
+      "importedBy": [
+        "api",
+        "config"
+      ],
+      "importCount": 2
+    },
+    "eventemitter2": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 1
+    },
+    "class-validator": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 8
+    },
+    "class-transformer": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 1
+    },
+    "helmet": {
+      "importedBy": [
+        "api"
+      ],
+      "importCount": 1
+    },
+    "next": {
+      "importedBy": [
+        "web"
+      ],
+      "importCount": 10
+    },
+    "react": {
+      "importedBy": [
+        "web",
+        "mobile"
+      ],
+      "importCount": 20
+    },
+    "react-dom": {
+      "importedBy": [
+        "web",
+        "mobile"
+      ],
+      "importCount": 2
+    },
+    "axios": {
+      "importedBy": [
+        "web",
+        "mobile"
+      ],
+      "importCount": 2
+    },
+    "socket.io-client": {
+      "importedBy": [
+        "web",
+        "mobile"
+      ],
+      "importCount": 2
+    },
+    "@tanstack/react-query": {
+      "importedBy": [
+        "web",
+        "mobile"
+      ],
+      "importCount": 18
+    },
+    "zustand": {
+      "importedBy": [
+        "web",
+        "mobile"
+      ],
+      "importCount": 3
+    },
+    "expo": {
+      "importedBy": [
+        "mobile"
+      ],
+      "importCount": 5
+    },
+    "expo-router": {
+      "importedBy": [
+        "mobile"
+      ],
+      "importCount": 12
+    },
+    "expo-secure-store": {
+      "importedBy": [
+        "mobile"
+      ],
+      "importCount": 3
+    },
+    "expo-constants": {
+      "importedBy": [
+        "mobile"
+      ],
+      "importCount": 2
+    },
+    "expo-notifications": {
+      "importedBy": [
+        "mobile"
+      ],
+      "importCount": 1
+    },
+    "expo-splash-screen": {
+      "importedBy": [
+        "mobile"
+      ],
+      "importCount": 1
+    },
+    "expo-status-bar": {
+      "importedBy": [
+        "mobile"
+      ],
+      "importCount": 1
+    },
+    "react-native": {
+      "importedBy": [
+        "mobile"
+      ],
+      "importCount": 14
+    },
+    "react-native-agora": {
+      "importedBy": [
+        "mobile"
+      ],
+      "importCount": 1
+    },
+    "@expo/vector-icons": {
+      "importedBy": [
+        "mobile"
+      ],
+      "importCount": 1
+    }
+  }
+}

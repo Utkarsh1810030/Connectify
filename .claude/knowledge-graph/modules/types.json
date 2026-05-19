@@ -1,0 +1,147 @@
+{
+  "module": "types",
+  "path": "packages/types",
+  "files": [
+    {
+      "path": "packages/types/src/index.ts",
+      "imports": {
+        "internal": [],
+        "external": []
+      },
+      "exports": [
+        "re-exports all sub-modules"
+      ],
+      "importedBy": [
+        "apps/api (multiple)",
+        "apps/web (multiple)",
+        "apps/mobile (multiple)"
+      ]
+    },
+    {
+      "path": "packages/types/src/user.types.ts",
+      "imports": {
+        "internal": [],
+        "external": []
+      },
+      "exports": [
+        "UserRole",
+        "User",
+        "CreateUserDto",
+        "UpdateUserDto"
+      ],
+      "importedBy": [
+        "packages/types/src/index.ts"
+      ]
+    },
+    {
+      "path": "packages/types/src/provider.types.ts",
+      "imports": {
+        "internal": [],
+        "external": []
+      },
+      "exports": [
+        "ProviderCategory",
+        "ProviderProfile",
+        "CreateProviderProfileDto",
+        "UpdateProviderProfileDto",
+        "ProviderListItem"
+      ],
+      "importedBy": [
+        "packages/types/src/index.ts"
+      ]
+    },
+    {
+      "path": "packages/types/src/session.types.ts",
+      "imports": {
+        "internal": [],
+        "external": []
+      },
+      "exports": [
+        "SessionType",
+        "SessionStatus",
+        "SessionEndReason",
+        "Session",
+        "StartSessionDto",
+        "ActiveSessionState"
+      ],
+      "importedBy": [
+        "packages/types/src/index.ts"
+      ]
+    },
+    {
+      "path": "packages/types/src/billing.types.ts",
+      "imports": {
+        "internal": [],
+        "external": []
+      },
+      "exports": [
+        "TransactionType",
+        "PayoutStatus",
+        "Wallet",
+        "Transaction",
+        "TopUpWalletDto",
+        "Payout",
+        "BillingTickEvent"
+      ],
+      "importedBy": [
+        "packages/types/src/index.ts"
+      ]
+    },
+    {
+      "path": "packages/types/src/chat.types.ts",
+      "imports": {
+        "internal": [],
+        "external": []
+      },
+      "exports": [
+        "MessageType",
+        "Message",
+        "SendMessageDto",
+        "Conversation",
+        "WsNewMessage",
+        "WsTyping",
+        "WsPresence"
+      ],
+      "importedBy": [
+        "packages/types/src/index.ts"
+      ]
+    },
+    {
+      "path": "packages/types/src/moderation.types.ts",
+      "imports": {
+        "internal": [],
+        "external": []
+      },
+      "exports": [
+        "ModerationActionType",
+        "ModerationAction",
+        "ModerationLog",
+        "Report",
+        "CreateReportDto",
+        "ContentFilterResult"
+      ],
+      "importedBy": [
+        "packages/types/src/index.ts"
+      ]
+    },
+    {
+      "path": "packages/types/src/api.types.ts",
+      "imports": {
+        "internal": [],
+        "external": []
+      },
+      "exports": [
+        "PaginatedResponse",
+        "ApiResponse",
+        "ApiError",
+        "PaginationQuery",
+        "AuthTokens",
+        "OtpRequestDto",
+        "OtpVerifyDto"
+      ],
+      "importedBy": [
+        "packages/types/src/index.ts"
+      ]
+    }
+  ]
+}

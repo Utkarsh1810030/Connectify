@@ -1,0 +1,214 @@
+{
+  "modules": [
+    {
+      "name": "api",
+      "path": "apps/api",
+      "fileCount": 90,
+      "languages": [
+        "typescript"
+      ],
+      "entryPoints": [
+        "apps/api/src/main.ts"
+      ],
+      "externalDeps": [
+        "@nestjs/common",
+        "@nestjs/core",
+        "@nestjs/config",
+        "@nestjs/jwt",
+        "@nestjs/mongoose",
+        "@nestjs/passport",
+        "@nestjs/platform-express",
+        "@nestjs/platform-socket.io",
+        "@nestjs/schedule",
+        "@nestjs/throttler",
+        "@nestjs/typeorm",
+        "@nestjs/websockets",
+        "@nestjs/mapped-types",
+        "typeorm",
+        "mongoose",
+        "ioredis",
+        "socket.io",
+        "passport",
+        "passport-jwt",
+        "bcryptjs",
+        "firebase-admin",
+        "agora-token",
+        "razorpay",
+        "zod",
+        "uuid",
+        "eventemitter2",
+        "rxjs",
+        "helmet",
+        "class-validator",
+        "class-transformer"
+      ],
+      "dependsOn": [
+        "types",
+        "config",
+        "utils"
+      ],
+      "dependedOnBy": []
+    },
+    {
+      "name": "web",
+      "path": "apps/web",
+      "fileCount": 39,
+      "languages": [
+        "typescript"
+      ],
+      "entryPoints": [
+        "apps/web/src/app/layout.tsx"
+      ],
+      "externalDeps": [
+        "next",
+        "react",
+        "react-dom",
+        "axios",
+        "socket.io-client",
+        "@tanstack/react-query",
+        "zustand"
+      ],
+      "dependsOn": [
+        "types",
+        "utils"
+      ],
+      "dependedOnBy": []
+    },
+    {
+      "name": "mobile",
+      "path": "apps/mobile",
+      "fileCount": 26,
+      "languages": [
+        "typescript"
+      ],
+      "entryPoints": [
+        "apps/mobile/app/_layout.tsx"
+      ],
+      "externalDeps": [
+        "expo",
+        "expo-router",
+        "expo-status-bar",
+        "expo-splash-screen",
+        "expo-notifications",
+        "expo-secure-store",
+        "expo-constants",
+        "react-native",
+        "react-native-agora",
+        "react-native-safe-area-context",
+        "react-native-screens",
+        "react-native-webview",
+        "axios",
+        "socket.io-client",
+        "@tanstack/react-query",
+        "zustand",
+        "@expo/vector-icons"
+      ],
+      "dependsOn": [
+        "types",
+        "utils"
+      ],
+      "dependedOnBy": []
+    },
+    {
+      "name": "types",
+      "path": "packages/types",
+      "fileCount": 8,
+      "languages": [
+        "typescript"
+      ],
+      "entryPoints": [
+        "packages/types/src/index.ts"
+      ],
+      "externalDeps": [],
+      "dependsOn": [],
+      "dependedOnBy": [
+        "api",
+        "web",
+        "mobile"
+      ]
+    },
+    {
+      "name": "config",
+      "path": "packages/config",
+      "fileCount": 1,
+      "languages": [
+        "typescript"
+      ],
+      "entryPoints": [
+        "packages/config/src/index.ts"
+      ],
+      "externalDeps": [
+        "zod"
+      ],
+      "dependsOn": [],
+      "dependedOnBy": [
+        "api"
+      ]
+    },
+    {
+      "name": "utils",
+      "path": "packages/utils",
+      "fileCount": 5,
+      "languages": [
+        "typescript"
+      ],
+      "entryPoints": [
+        "packages/utils/src/index.ts"
+      ],
+      "externalDeps": [],
+      "dependsOn": [],
+      "dependedOnBy": [
+        "api",
+        "web",
+        "mobile"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "api",
+      "to": "types",
+      "weight": 12
+    },
+    {
+      "from": "api",
+      "to": "config",
+      "weight": 1
+    },
+    {
+      "from": "api",
+      "to": "utils",
+      "weight": 8
+    },
+    {
+      "from": "web",
+      "to": "types",
+      "weight": 7
+    },
+    {
+      "from": "web",
+      "to": "utils",
+      "weight": 1
+    },
+    {
+      "from": "mobile",
+      "to": "types",
+      "weight": 7
+    },
+    {
+      "from": "mobile",
+      "to": "utils",
+      "weight": 1
+    }
+  ],
+  "circularDependencies": [
+    {
+      "cycle": [
+        "api/sessions",
+        "api/calling"
+      ],
+      "resolvedWith": "forwardRef",
+      "via": "apps/api/src/modules/sessions/sessions.module.ts <-> apps/api/src/modules/calling/calling.module.ts"
+    }
+  ]
+}

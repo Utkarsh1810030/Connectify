@@ -1,0 +1,23 @@
+{
+  "module": "config",
+  "path": "packages/config",
+  "files": [
+    {
+      "path": "packages/config/src/index.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "zod"
+        ]
+      },
+      "exports": [
+        "AppConfigSchema",
+        "AppConfig",
+        "validateConfig"
+      ],
+      "importedBy": [
+        "apps/api/src/app.module.ts"
+      ]
+    }
+  ]
+}

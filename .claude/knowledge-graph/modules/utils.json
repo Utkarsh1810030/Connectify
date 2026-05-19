@@ -1,0 +1,79 @@
+{
+  "module": "utils",
+  "path": "packages/utils",
+  "files": [
+    {
+      "path": "packages/utils/src/index.ts",
+      "imports": {
+        "internal": [],
+        "external": []
+      },
+      "exports": [
+        "re-exports all sub-modules"
+      ],
+      "importedBy": [
+        "apps/api (multiple)",
+        "apps/web (none direct)",
+        "apps/mobile (none direct)"
+      ]
+    },
+    {
+      "path": "packages/utils/src/phone.utils.ts",
+      "imports": {
+        "internal": [],
+        "external": []
+      },
+      "exports": [
+        "isValidIndianPhone",
+        "normalizePhone"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/auth/auth.service.ts"
+      ]
+    },
+    {
+      "path": "packages/utils/src/pagination.utils.ts",
+      "imports": {
+        "internal": [],
+        "external": []
+      },
+      "exports": [
+        "PaginationMeta",
+        "buildPagination",
+        "getPaginationOffset"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/providers/providers.service.ts",
+        "apps/api/src/modules/moderation/moderation.service.ts"
+      ]
+    },
+    {
+      "path": "packages/utils/src/money.utils.ts",
+      "imports": {
+        "internal": [],
+        "external": []
+      },
+      "exports": [
+        "roundMoney",
+        "splitAmount",
+        "calcSessionCharge"
+      ],
+      "importedBy": [
+        "apps/api/src/modules/sessions/sessions.service.ts",
+        "apps/api/src/modules/billing/billing-engine.service.ts",
+        "apps/api/src/modules/billing/wallet.service.ts"
+      ]
+    },
+    {
+      "path": "packages/utils/src/date.utils.ts",
+      "imports": {
+        "internal": [],
+        "external": []
+      },
+      "exports": [
+        "date utility functions"
+      ],
+      "importedBy": []
+    }
+  ]
+}

@@ -1,0 +1,350 @@
+{
+  "module": "web",
+  "path": "apps/web",
+  "notes": "Next.js 14 App Router. Path alias @/* maps to apps/web/src/*. Route groups (app), (provider), (admin) are stripped from URLs. Workspace packages referenced as @connectify/types, @connectify/utils.",
+  "files": [
+    {
+      "path": "apps/web/src/app/layout.tsx",
+      "imports": {
+        "internal": [
+          "apps/web/src/app/providers.tsx"
+        ],
+        "external": [
+          "next"
+        ]
+      },
+      "exports": [
+        "default RootLayout"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/providers.tsx",
+      "imports": {
+        "internal": [
+          "apps/web/src/lib/query-client.ts"
+        ],
+        "external": [
+          "@tanstack/react-query"
+        ]
+      },
+      "exports": [
+        "Providers"
+      ],
+      "importedBy": [
+        "apps/web/src/app/layout.tsx"
+      ]
+    },
+    {
+      "path": "apps/web/src/app/page.tsx",
+      "imports": {
+        "internal": [],
+        "external": [
+          "next/link"
+        ]
+      },
+      "exports": [
+        "default LandingPage"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/login/page.tsx",
+      "imports": {
+        "internal": [
+          "apps/web/src/lib/api.ts"
+        ],
+        "external": [
+          "react",
+          "next/navigation"
+        ]
+      },
+      "exports": [
+        "default LoginPage"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/pricing/page.tsx",
+      "imports": {
+        "internal": [],
+        "external": [
+          "next/link"
+        ]
+      },
+      "exports": [
+        "default PricingPage"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/(app)/layout.tsx",
+      "imports": {
+        "internal": [],
+        "external": [
+          "react",
+          "next/navigation",
+          "next/link"
+        ]
+      },
+      "exports": [
+        "default AppLayout"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/(app)/home/page.tsx",
+      "imports": {
+        "internal": [
+          "apps/web/src/lib/api.ts"
+        ],
+        "external": [
+          "@tanstack/react-query",
+          "next/link",
+          "@connectify/types"
+        ]
+      },
+      "exports": [
+        "default HomePage"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/(app)/provider/[id]/page.tsx",
+      "imports": {
+        "internal": [
+          "apps/web/src/lib/api.ts"
+        ],
+        "external": [
+          "@tanstack/react-query",
+          "next/navigation",
+          "@connectify/types"
+        ]
+      },
+      "exports": [
+        "default ProviderDetailPage"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/(app)/session/[id]/page.tsx",
+      "imports": {
+        "internal": [
+          "apps/web/src/lib/api.ts",
+          "apps/web/src/lib/socket.ts"
+        ],
+        "external": [
+          "react",
+          "@tanstack/react-query",
+          "next/navigation",
+          "socket.io-client",
+          "@connectify/types"
+        ]
+      },
+      "exports": [
+        "default SessionPage"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/(app)/wallet/page.tsx",
+      "imports": {
+        "internal": [
+          "apps/web/src/lib/api.ts"
+        ],
+        "external": [
+          "react",
+          "@tanstack/react-query",
+          "@connectify/types"
+        ]
+      },
+      "exports": [
+        "default WalletPage"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/(provider)/layout.tsx",
+      "imports": {
+        "internal": [],
+        "external": [
+          "react",
+          "next/navigation",
+          "next/link"
+        ]
+      },
+      "exports": [
+        "default ProviderLayout"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/(provider)/dashboard/page.tsx",
+      "imports": {
+        "internal": [
+          "apps/web/src/lib/api.ts"
+        ],
+        "external": [
+          "@tanstack/react-query",
+          "next/link",
+          "@connectify/types"
+        ]
+      },
+      "exports": [
+        "default ProviderDashboardPage"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/(provider)/earnings/page.tsx",
+      "imports": {
+        "internal": [
+          "apps/web/src/lib/api.ts"
+        ],
+        "external": [
+          "react",
+          "@tanstack/react-query"
+        ]
+      },
+      "exports": [
+        "default EarningsPage"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/(provider)/settings/page.tsx",
+      "imports": {
+        "internal": [
+          "apps/web/src/lib/api.ts"
+        ],
+        "external": [
+          "react",
+          "@tanstack/react-query"
+        ]
+      },
+      "exports": [
+        "default ProviderSettingsPage"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/(admin)/layout.tsx",
+      "imports": {
+        "internal": [],
+        "external": [
+          "next/link"
+        ]
+      },
+      "exports": [
+        "default AdminLayout"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/(admin)/admin/users/page.tsx",
+      "imports": {
+        "internal": [
+          "apps/web/src/lib/api.ts"
+        ],
+        "external": [
+          "@tanstack/react-query"
+        ]
+      },
+      "exports": [
+        "default AdminUsersPage"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/(admin)/admin/sessions/page.tsx",
+      "imports": {
+        "internal": [
+          "apps/web/src/lib/api.ts"
+        ],
+        "external": [
+          "@tanstack/react-query"
+        ]
+      },
+      "exports": [
+        "default AdminSessionsPage"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/(admin)/admin/moderation/page.tsx",
+      "imports": {
+        "internal": [
+          "apps/web/src/lib/api.ts"
+        ],
+        "external": [
+          "@tanstack/react-query"
+        ]
+      },
+      "exports": [
+        "default AdminModerationPage"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/app/(admin)/admin/payouts/page.tsx",
+      "imports": {
+        "internal": [
+          "apps/web/src/lib/api.ts"
+        ],
+        "external": [
+          "@tanstack/react-query"
+        ]
+      },
+      "exports": [
+        "default AdminPayoutsPage"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/web/src/lib/api.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "axios"
+        ]
+      },
+      "exports": [
+        "api (axios instance with auth interceptor)"
+      ],
+      "importedBy": [
+        "many pages throughout apps/web/src/app/"
+      ]
+    },
+    {
+      "path": "apps/web/src/lib/query-client.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "@tanstack/react-query"
+        ]
+      },
+      "exports": [
+        "queryClient"
+      ],
+      "importedBy": [
+        "apps/web/src/app/providers.tsx"
+      ]
+    },
+    {
+      "path": "apps/web/src/lib/socket.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "socket.io-client"
+        ]
+      },
+      "exports": [
+        "createChatSocket",
+        "getUserIdFromToken"
+      ],
+      "importedBy": [
+        "apps/web/src/app/(app)/session/[id]/page.tsx"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,465 @@
+{
+  "module": "mobile",
+  "path": "apps/mobile",
+  "notes": "Expo Router v3 (file-based routing). Path alias @/* maps to apps/mobile/src/*. Entry point is expo-router/entry (see package.json main field). Route groups (auth), (tabs), (modals) are stripped from navigation URLs. Workspace packages referenced as @connectify/types, @connectify/utils.",
+  "files": [
+    {
+      "path": "apps/mobile/app/_layout.tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/lib/query-client.ts",
+          "apps/mobile/src/stores/auth.store.ts",
+          "apps/mobile/src/services/api.ts"
+        ],
+        "external": [
+          "expo-router",
+          "react",
+          "expo-status-bar",
+          "expo-splash-screen",
+          "expo-notifications",
+          "@tanstack/react-query"
+        ]
+      },
+      "exports": [
+        "default RootLayout"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/app/index.tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/stores/auth.store.ts"
+        ],
+        "external": [
+          "expo-router"
+        ]
+      },
+      "exports": [
+        "default IndexRedirect"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/app/(auth)/_layout.tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/stores/auth.store.ts"
+        ],
+        "external": [
+          "expo-router"
+        ]
+      },
+      "exports": [
+        "default AuthLayout"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/app/(auth)/login.tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/services/api.ts",
+          "apps/mobile/src/stores/auth.store.ts"
+        ],
+        "external": [
+          "react",
+          "react-native",
+          "expo-router"
+        ]
+      },
+      "exports": [
+        "default LoginScreen"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/app/(auth)/onboarding.tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/services/api.ts"
+        ],
+        "external": [
+          "react",
+          "react-native",
+          "expo-router"
+        ]
+      },
+      "exports": [
+        "default OnboardingScreen"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/app/(tabs)/_layout.tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/stores/auth.store.ts"
+        ],
+        "external": [
+          "expo-router",
+          "@expo/vector-icons"
+        ]
+      },
+      "exports": [
+        "default TabLayout"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/app/(tabs)/home.tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/services/api.ts",
+          "apps/mobile/src/stores/wallet.store.ts"
+        ],
+        "external": [
+          "react-native",
+          "expo-router",
+          "@tanstack/react-query",
+          "@connectify/types"
+        ]
+      },
+      "exports": [
+        "default HomeScreen"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/app/(tabs)/search.tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/services/api.ts"
+        ],
+        "external": [
+          "react",
+          "react-native",
+          "expo-router",
+          "@tanstack/react-query"
+        ]
+      },
+      "exports": [
+        "default SearchScreen"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/app/(tabs)/history.tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/services/api.ts"
+        ],
+        "external": [
+          "react-native",
+          "expo-router",
+          "@tanstack/react-query",
+          "@connectify/types"
+        ]
+      },
+      "exports": [
+        "default HistoryScreen"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/app/(tabs)/profile.tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/services/api.ts",
+          "apps/mobile/src/stores/auth.store.ts",
+          "apps/mobile/src/stores/wallet.store.ts"
+        ],
+        "external": [
+          "react",
+          "react-native",
+          "expo-router",
+          "@tanstack/react-query"
+        ]
+      },
+      "exports": [
+        "default ProfileScreen"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/app/(modals)/rate.tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/services/api.ts",
+          "apps/mobile/src/stores/session.store.ts"
+        ],
+        "external": [
+          "react",
+          "react-native",
+          "expo-router",
+          "@tanstack/react-query"
+        ]
+      },
+      "exports": [
+        "default RateModal"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/app/(modals)/report.tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/services/api.ts",
+          "apps/mobile/src/stores/session.store.ts"
+        ],
+        "external": [
+          "react",
+          "react-native",
+          "expo-router",
+          "@tanstack/react-query"
+        ]
+      },
+      "exports": [
+        "default ReportModal"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/app/(modals)/topup.tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/services/api.ts",
+          "apps/mobile/src/stores/wallet.store.ts"
+        ],
+        "external": [
+          "react",
+          "react-native",
+          "expo-router",
+          "@tanstack/react-query"
+        ]
+      },
+      "exports": [
+        "default TopUpModal"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/app/provider/[id].tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/services/api.ts",
+          "apps/mobile/src/stores/wallet.store.ts",
+          "apps/mobile/src/stores/session.store.ts"
+        ],
+        "external": [
+          "react-native",
+          "expo-router",
+          "@tanstack/react-query",
+          "@connectify/types"
+        ]
+      },
+      "exports": [
+        "default ProviderDetailScreen"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/app/session/chat/[id].tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/services/api.ts",
+          "apps/mobile/src/services/socket.ts",
+          "apps/mobile/src/stores/session.store.ts"
+        ],
+        "external": [
+          "react",
+          "react-native",
+          "expo-router",
+          "@connectify/types"
+        ]
+      },
+      "exports": [
+        "default ChatSessionScreen"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/app/session/video/[id].tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/services/api.ts",
+          "apps/mobile/src/services/socket.ts",
+          "apps/mobile/src/services/agora.ts",
+          "apps/mobile/src/stores/session.store.ts"
+        ],
+        "external": [
+          "react",
+          "react-native",
+          "expo-router"
+        ]
+      },
+      "exports": [
+        "default VideoSessionScreen"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/app/session/voice/[id].tsx",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/services/api.ts",
+          "apps/mobile/src/services/socket.ts",
+          "apps/mobile/src/services/agora.ts",
+          "apps/mobile/src/stores/session.store.ts"
+        ],
+        "external": [
+          "react",
+          "react-native",
+          "expo-router"
+        ]
+      },
+      "exports": [
+        "default VoiceSessionScreen"
+      ],
+      "importedBy": []
+    },
+    {
+      "path": "apps/mobile/src/services/api.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "axios",
+          "expo-secure-store",
+          "expo-constants"
+        ]
+      },
+      "exports": [
+        "api (axios instance with auth interceptor)"
+      ],
+      "importedBy": [
+        "apps/mobile/app/_layout.tsx",
+        "apps/mobile/app/(auth)/login.tsx",
+        "apps/mobile/app/(auth)/onboarding.tsx",
+        "apps/mobile/app/(tabs)/*.tsx (all tab screens)",
+        "apps/mobile/app/(modals)/*.tsx",
+        "apps/mobile/app/provider/[id].tsx",
+        "apps/mobile/app/session/**/*.tsx",
+        "apps/mobile/src/services/agora.ts",
+        "apps/mobile/src/stores/wallet.store.ts"
+      ]
+    },
+    {
+      "path": "apps/mobile/src/services/socket.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "socket.io-client",
+          "expo-secure-store",
+          "expo-constants",
+          "@connectify/types"
+        ]
+      },
+      "exports": [
+        "socketService (singleton with connect/disconnect/emit/on)"
+      ],
+      "importedBy": [
+        "apps/mobile/src/stores/auth.store.ts",
+        "apps/mobile/app/session/chat/[id].tsx",
+        "apps/mobile/app/session/video/[id].tsx",
+        "apps/mobile/app/session/voice/[id].tsx"
+      ]
+    },
+    {
+      "path": "apps/mobile/src/services/agora.ts",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/services/api.ts"
+        ],
+        "external": [
+          "react-native-agora"
+        ]
+      },
+      "exports": [
+        "agoraService",
+        "RtcSurfaceView",
+        "VideoSourceType"
+      ],
+      "importedBy": [
+        "apps/mobile/app/session/video/[id].tsx",
+        "apps/mobile/app/session/voice/[id].tsx"
+      ]
+    },
+    {
+      "path": "apps/mobile/src/stores/auth.store.ts",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/services/socket.ts"
+        ],
+        "external": [
+          "zustand",
+          "expo-secure-store"
+        ]
+      },
+      "exports": [
+        "useAuthStore"
+      ],
+      "importedBy": [
+        "apps/mobile/app/_layout.tsx",
+        "apps/mobile/app/index.tsx",
+        "apps/mobile/app/(auth)/_layout.tsx",
+        "apps/mobile/app/(auth)/login.tsx",
+        "apps/mobile/app/(tabs)/_layout.tsx",
+        "apps/mobile/app/(tabs)/profile.tsx"
+      ]
+    },
+    {
+      "path": "apps/mobile/src/stores/session.store.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "zustand",
+          "@connectify/types"
+        ]
+      },
+      "exports": [
+        "useSessionStore"
+      ],
+      "importedBy": [
+        "apps/mobile/app/(modals)/rate.tsx",
+        "apps/mobile/app/(modals)/report.tsx",
+        "apps/mobile/app/provider/[id].tsx",
+        "apps/mobile/app/session/**/*.tsx"
+      ]
+    },
+    {
+      "path": "apps/mobile/src/stores/wallet.store.ts",
+      "imports": {
+        "internal": [
+          "apps/mobile/src/services/api.ts"
+        ],
+        "external": [
+          "zustand"
+        ]
+      },
+      "exports": [
+        "useWalletStore"
+      ],
+      "importedBy": [
+        "apps/mobile/app/(tabs)/home.tsx",
+        "apps/mobile/app/(tabs)/profile.tsx",
+        "apps/mobile/app/(modals)/topup.tsx",
+        "apps/mobile/app/provider/[id].tsx"
+      ]
+    },
+    {
+      "path": "apps/mobile/src/lib/query-client.ts",
+      "imports": {
+        "internal": [],
+        "external": [
+          "@tanstack/react-query"
+        ]
+      },
+      "exports": [
+        "queryClient"
+      ],
+      "importedBy": [
+        "apps/mobile/app/_layout.tsx"
+      ]
+    }
+  ]
+}
