@@ -38,4 +38,8 @@ export class RatingsService {
     const { buildPagination } = await import('@connectify/utils');
     return { data, ...buildPagination(page, limit, total) };
   }
+
+  async findBySession(sessionId: string) {
+    return this.repo.findOne({ where: { sessionId } });
+  }
 }

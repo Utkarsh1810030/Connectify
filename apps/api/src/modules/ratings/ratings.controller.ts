@@ -7,7 +7,7 @@ import { CreateRatingDto } from './dto/create-rating.dto';
 @Controller('ratings')
 @UseGuards(JwtAuthGuard)
 export class RatingsController {
-  constructor(private readonly ratingsService: RatingsService) {}
+  constructor(private readonly ratingsService: RatingsService) { }
 
   @Post()
   create(@CurrentUser() user: { id: string }, @Body() dto: CreateRatingDto) {
@@ -24,5 +24,10 @@ export class RatingsController {
       page: page ? parseInt(page, 10) : undefined,
       limit: limit ? parseInt(limit, 10) : undefined,
     });
+  }
+
+  @Get('session/:sessionId')
+  findBySession(@Param('sessionId') sessionId: string) {
+    return this.ratingsService.findBySession(sessionId);
   }
 }

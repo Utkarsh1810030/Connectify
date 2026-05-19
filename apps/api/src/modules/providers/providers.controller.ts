@@ -41,4 +41,10 @@ export class ProvidersController {
   update(@CurrentUser() user: UserEntity, @Body() dto: UpdateProviderProfileDto) {
     return this.providersService.update(user.id, dto);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('online')
+  toggleOnline(@CurrentUser() user: UserEntity, @Body('isOnline') isOnline: boolean) {
+    return this.providersService.updateOnlineStatus(user.id, isOnline);
+  }
 }

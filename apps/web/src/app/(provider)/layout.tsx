@@ -20,6 +20,7 @@ export default function ProviderLayout({ children }: { children: React.ReactNode
         <nav className={styles.nav}>
           <Link href="/dashboard" className={styles.navItem}>📊 Dashboard</Link>
           <Link href="/earnings" className={styles.navItem}>💰 Earnings</Link>
+          <Link href="/settings" className={styles.navItem}>⚙️ Settings</Link>
           <Link href="/home" className={styles.navItem}>🏠 Browse</Link>
         </nav>
       </aside>
