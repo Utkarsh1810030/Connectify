@@ -18,7 +18,7 @@ export class AdminService {
     @InjectRepository(UserEntity) private readonly userRepo: Repository<UserEntity>,
     @InjectRepository(ProviderProfileEntity) private readonly providerRepo: Repository<ProviderProfileEntity>,
     @InjectRepository(PayoutEntity) private readonly payoutRepo: Repository<PayoutEntity>,
-  ) {}
+  ) { }
 
   async listUsers(query: { page?: number; limit?: number; search?: string }) {
     const { page = 1, limit = 20, search } = query;

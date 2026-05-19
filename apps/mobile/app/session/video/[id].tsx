@@ -29,7 +29,7 @@ export default function VideoSessionScreen() {
 
   const handleEnd = useCallback(async (userInitiated = true) => {
     if (userInitiated) {
-      await api.post(`/sessions/${id}/end`).catch(() => {});
+      await api.post(`/sessions/${id}/end`).catch(() => { });
     }
     endSession();
     router.replace('/(modals)/rate');

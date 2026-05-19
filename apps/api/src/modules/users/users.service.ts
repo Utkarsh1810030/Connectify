@@ -9,7 +9,7 @@ export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly repo: Repository<UserEntity>,
-  ) {}
+  ) { }
 
   async findById(id: string): Promise<UserEntity> {
     const user = await this.repo.findOne({ where: { id } });

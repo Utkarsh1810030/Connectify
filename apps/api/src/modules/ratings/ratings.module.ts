@@ -10,4 +10,4 @@ import { SessionsModule } from '../sessions/sessions.module';
   providers: [RatingsService],
   exports: [RatingsService],
 })
-export class RatingsModule {}
+export class RatingsModule { }

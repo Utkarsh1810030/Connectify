@@ -10,7 +10,7 @@ import { UserEntity } from './entities/user.entity';
 @UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Get('me')
   getMe(@CurrentUser() user: UserEntity) {

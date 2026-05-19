@@ -18,7 +18,7 @@ export class BillingEngineService implements OnModuleDestroy {
     private readonly config: ConfigService,
     @Inject(EVENT_BUS) private readonly eventBus: IEventBus,
     @Inject(CACHE_SERVICE) private readonly cache: ICacheService,
-  ) {}
+  ) { }
 
   async startBilling(session: ActiveSessionState): Promise<void> {
     await this.cache.set(`session:active:${session.sessionId}`, session, ACTIVE_SESSION_TTL);

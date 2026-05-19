@@ -14,7 +14,7 @@ export class WalletService {
     @InjectRepository(TransactionEntity) private readonly txRepo: Repository<TransactionEntity>,
     @Inject(CACHE_SERVICE) private readonly cache: ICacheService,
     private readonly dataSource: DataSource,
-  ) {}
+  ) { }
 
   async getOrCreateWallet(userId: string): Promise<WalletEntity> {
     let wallet = await this.walletRepo.findOne({ where: { userId } });

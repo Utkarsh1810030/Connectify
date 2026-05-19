@@ -10,7 +10,7 @@ export class CallingService {
   constructor(
     private readonly config: ConfigService,
     @Inject(CACHE_SERVICE) private readonly cache: ICacheService,
-  ) {}
+  ) { }
 
   async generateToken(channelId: string, userId: string, role: 'publisher' | 'subscriber'): Promise<string> {
     const cacheKey = CacheKeys.agoraToken(channelId, userId);

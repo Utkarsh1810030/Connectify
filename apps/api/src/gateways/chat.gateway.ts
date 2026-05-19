@@ -11,7 +11,7 @@ import { WsJwtGuard } from './guards/ws-jwt.guard';
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
 
-  constructor(private readonly chatService: ChatService) {}
+  constructor(private readonly chatService: ChatService) { }
 
   handleConnection(client: Socket) {
     const userId = client.handshake.auth?.userId;

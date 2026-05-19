@@ -16,4 +16,4 @@ import { ModerationModule } from '../moderation/moderation.module';
   providers: [ChatService],
   exports: [ChatService],
 })
-export class ChatModule {}
+export class ChatModule { }

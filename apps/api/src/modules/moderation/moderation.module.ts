@@ -10,4 +10,4 @@ import { ModerationService } from './moderation.service';
   providers: [ContentFilterService, ModerationService],
   exports: [ContentFilterService, ModerationService],
 })
-export class ModerationModule {}
+export class ModerationModule { }

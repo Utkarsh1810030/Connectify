@@ -11,4 +11,4 @@ import { CACHE_SERVICE } from './cache.interface';
   ],
   exports: [CACHE_SERVICE, RedisCacheService],
 })
-export class CacheModule {}
+export class CacheModule { }

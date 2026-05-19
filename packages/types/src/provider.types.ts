@@ -35,7 +35,7 @@ export interface CreateProviderProfileDto {
   videoRatePerMin: number;
 }
 
-export interface UpdateProviderProfileDto extends Partial<CreateProviderProfileDto> {}
+export interface UpdateProviderProfileDto extends Partial<CreateProviderProfileDto> { }
 
 export interface ProviderListItem {
   id: string;

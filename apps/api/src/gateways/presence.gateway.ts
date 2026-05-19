@@ -8,7 +8,7 @@ import { ProvidersService } from '../modules/providers/providers.service';
 export class PresenceGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
 
-  constructor(private readonly providersService: ProvidersService) {}
+  constructor(private readonly providersService: ProvidersService) { }
 
   async handleConnection(client: Socket) {
     const userId = client.handshake.auth?.userId;

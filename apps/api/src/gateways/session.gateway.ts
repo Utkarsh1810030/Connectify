@@ -15,7 +15,7 @@ export class SessionGateway implements OnGatewayConnection, OnModuleInit {
   constructor(
     private readonly sessionsService: SessionsService,
     @Inject(EVENT_BUS) private readonly eventBus: IEventBus,
-  ) {}
+  ) { }
 
   onModuleInit() {
     // Forward internal billing events to connected clients
@@ -24,7 +24,7 @@ export class SessionGateway implements OnGatewayConnection, OnModuleInit {
     });
     this.eventBus.on('billing.session_end', (payload: any) => {
       this.server.to(`user:${payload.userId}`).emit('session_ended', { sessionId: payload.sessionId, reason: 'low_balance' });
-      this.sessionsService.end(payload.sessionId, 'low_balance').catch(() => {});
+      this.sessionsService.end(payload.sessionId, 'low_balance').catch(() => { });
     });
     this.eventBus.on('session.ended', (payload: any) => {
       this.server.to(`session:${payload.sessionId}`).emit('session_ended', payload);

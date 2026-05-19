@@ -5,7 +5,7 @@ import { Document, Types } from 'mongoose';
 export class Message extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Conversation', required: true, index: true }) conversationId: Types.ObjectId;
   @Prop({ required: true }) senderId: string;
-  @Prop({ enum: ['text','image','system'], default: 'text' }) type: string;
+  @Prop({ enum: ['text', 'image', 'system'], default: 'text' }) type: string;
   @Prop({ required: true }) content: string;
   @Prop({ default: false }) isFiltered: boolean;
   @Prop({ type: Date, default: null }) readAt: Date | null;

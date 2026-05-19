@@ -12,7 +12,7 @@ export class RatingsService {
     @InjectRepository(RatingEntity) private readonly repo: Repository<RatingEntity>,
     private readonly providersService: ProvidersService,
     private readonly sessionsService: SessionsService,
-  ) {}
+  ) { }
 
   async create(userId: string, dto: CreateRatingDto): Promise<RatingEntity> {
     const session = await this.sessionsService.findById(dto.sessionId);

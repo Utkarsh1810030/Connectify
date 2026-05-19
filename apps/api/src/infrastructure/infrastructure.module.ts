@@ -9,4 +9,4 @@ import { FeatureFlagsModule } from './feature-flags/feature-flags.module';
   imports: [ConfigModule, EventBusModule, CacheModule, FeatureFlagsModule],
   exports: [EventBusModule, CacheModule, FeatureFlagsModule],
 })
-export class InfrastructureModule {}
+export class InfrastructureModule { }

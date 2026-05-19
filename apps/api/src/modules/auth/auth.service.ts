@@ -17,7 +17,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly config: ConfigService,
     @Inject(CACHE_SERVICE) private readonly cache: ICacheService,
-  ) {}
+  ) { }
 
   async requestOtp(phone: string): Promise<void> {
     if (!isValidIndianPhone(phone)) throw new BadRequestException('Invalid phone number');

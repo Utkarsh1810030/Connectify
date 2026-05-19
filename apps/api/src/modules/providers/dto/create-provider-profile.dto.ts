@@ -12,7 +12,7 @@ export class CreateProviderProfileDto {
   bio?: string;
 
   @IsArray()
-  @IsEnum(['emotional_support','career_advice','language_practice','hobby_chat','study_buddy','general'], { each: true })
+  @IsEnum(['emotional_support', 'career_advice', 'language_practice', 'hobby_chat', 'study_buddy', 'general'], { each: true })
   @ArrayMinSize(1)
   categories: ProviderCategory[];
 

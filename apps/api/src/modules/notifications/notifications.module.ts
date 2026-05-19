@@ -7,4 +7,4 @@ import { NotificationsService } from './notifications.service';
   providers: [NotificationsService],
   exports: [NotificationsService],
 })
-export class NotificationsModule {}
+export class NotificationsModule { }

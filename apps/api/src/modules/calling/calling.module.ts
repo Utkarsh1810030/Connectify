@@ -7,4 +7,4 @@ import { CallingService } from './calling.service';
   providers: [CallingService],
   exports: [CallingService],
 })
-export class CallingModule {}
+export class CallingModule { }

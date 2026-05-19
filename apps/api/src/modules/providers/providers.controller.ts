@@ -8,7 +8,7 @@ import { UserEntity } from '../users/entities/user.entity';
 
 @Controller('providers')
 export class ProvidersController {
-  constructor(private readonly providersService: ProvidersService) {}
+  constructor(private readonly providersService: ProvidersService) { }
 
   @Get()
   list(@Query('category') category?: string, @Query('page') page?: string, @Query('limit') limit?: string) {

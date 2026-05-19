@@ -24,7 +24,7 @@ export class SessionsService {
     @Inject(EVENT_BUS) private readonly eventBus: IEventBus,
     @Inject(CACHE_SERVICE) private readonly cache: ICacheService,
     private readonly config: ConfigService,
-  ) {}
+  ) { }
 
   async create(userId: string, dto: StartSessionDto): Promise<SessionEntity> {
     const provider = await this.providersService.findById(dto.providerId);

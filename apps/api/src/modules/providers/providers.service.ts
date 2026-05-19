@@ -13,7 +13,7 @@ export class ProvidersService {
     @InjectRepository(ProviderProfileEntity)
     private readonly repo: Repository<ProviderProfileEntity>,
     @Inject(CACHE_SERVICE) private readonly cache: ICacheService,
-  ) {}
+  ) { }
 
   async create(userId: string, dto: CreateProviderProfileDto): Promise<ProviderProfileEntity> {
     const existing = await this.repo.findOne({ where: { userId } });

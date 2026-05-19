@@ -10,4 +10,4 @@ import { ProvidersModule } from '../modules/providers/providers.module';
   imports: [ChatModule, SessionsModule, ProvidersModule],
   providers: [ChatGateway, SessionGateway, PresenceGateway],
 })
-export class GatewaysModule {}
+export class GatewaysModule { }

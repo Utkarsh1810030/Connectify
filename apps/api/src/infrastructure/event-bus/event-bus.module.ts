@@ -6,4 +6,4 @@ import { EVENT_BUS } from './event-bus.interface';
   providers: [{ provide: EVENT_BUS, useClass: LocalEventBus }],
   exports: [EVENT_BUS],
 })
-export class EventBusModule {}
+export class EventBusModule { }

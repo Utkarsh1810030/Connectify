@@ -11,7 +11,7 @@ export class ChatService {
     @InjectModel(Conversation.name) private readonly convModel: Model<Conversation>,
     @InjectModel(Message.name) private readonly msgModel: Model<Message>,
     private readonly moderationService: ModerationService,
-  ) {}
+  ) { }
 
   async getOrCreateConversation(sessionId: string, participants: [string, string]): Promise<Conversation> {
     const existing = await this.convModel.findOne({ sessionId });

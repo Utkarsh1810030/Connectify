@@ -12,7 +12,7 @@ export class AdminController {
   constructor(
     private readonly adminService: AdminService,
     private readonly moderationService: ModerationService,
-  ) {}
+  ) { }
 
   @Get('users')
   listUsers(@Query('page') page?: number, @Query('limit') limit?: number, @Query('search') search?: string) {

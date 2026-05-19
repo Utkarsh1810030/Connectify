@@ -19,7 +19,7 @@ export class ModerationService {
     private readonly reportRepo: Repository<ReportEntity>,
     private readonly filter: ContentFilterService,
     @Inject(EVENT_BUS) private readonly eventBus: IEventBus,
-  ) {}
+  ) { }
 
   async moderateMessage(
     sessionId: string,

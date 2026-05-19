@@ -1,4 +1,8 @@
-.shell { display: flex; min-height: 100vh; }
+.shell {
+  display: flex;
+  min-height: 100vh;
+}
+
 .sidebar {
   width: 220px;
   background: #1e1e2e;
@@ -10,8 +14,19 @@
   top: 0;
   height: 100vh;
 }
-.logo { font-size: 18px; font-weight: 700; color: var(--primary); }
-.nav { display: flex; flex-direction: column; gap: 4px; }
+
+.logo {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .navItem {
   display: block;
   padding: 10px 14px;
@@ -20,5 +35,13 @@
   color: #aaa;
   transition: background 0.15s;
 }
-.navItem:hover { background: rgba(108,99,255,0.15); color: var(--primary); }
-.content { flex: 1; padding: 40px; }
+
+.navItem:hover {
+  background: rgba(108, 99, 255, 0.15);
+  color: var(--primary);
+}
+
+.content {
+  flex: 1;
+  padding: 40px;
+}

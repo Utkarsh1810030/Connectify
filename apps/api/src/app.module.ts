@@ -62,4 +62,4 @@ import { GatewaysModule } from './gateways/gateways.module';
   ],
   controllers: [AppController],
 })
-export class AppModule {}
+export class AppModule { }

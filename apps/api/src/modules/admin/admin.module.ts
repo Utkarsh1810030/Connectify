@@ -19,4 +19,4 @@ import { PayoutEntity } from '../billing/entities/payout.entity';
   providers: [AdminService],
   controllers: [AdminController],
 })
-export class AdminModule {}
+export class AdminModule { }

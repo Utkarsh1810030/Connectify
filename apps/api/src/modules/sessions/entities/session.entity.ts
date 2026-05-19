@@ -4,8 +4,8 @@ export class SessionEntity {
   @PrimaryGeneratedColumn('uuid') id: string;
   @Column({ name: 'user_id' }) userId: string;
   @Column({ name: 'provider_id' }) providerId: string;
-  @Column({ type: 'enum', enum: ['chat','voice','video'] }) type: string;
-  @Column({ type: 'enum', enum: ['pending','active','paused','completed','cancelled','failed'], default: 'pending' }) status: string;
+  @Column({ type: 'enum', enum: ['chat', 'voice', 'video'] }) type: string;
+  @Column({ type: 'enum', enum: ['pending', 'active', 'paused', 'completed', 'cancelled', 'failed'], default: 'pending' }) status: string;
   @Column({ name: 'rate_per_min', type: 'decimal', precision: 10, scale: 2 }) ratePerMin: number;
   @Column({ name: 'total_duration_sec', default: 0 }) totalDurationSec: number;
   @Column({ name: 'total_amount', type: 'decimal', precision: 12, scale: 2, default: 0 }) totalAmount: number;

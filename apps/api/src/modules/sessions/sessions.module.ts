@@ -16,4 +16,4 @@ import { CallingModule } from '../calling/calling.module';
   providers: [SessionsService],
   exports: [SessionsService],
 })
-export class SessionsModule {}
+export class SessionsModule { }

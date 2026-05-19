@@ -16,10 +16,10 @@ export interface FeatureFlag {
 export class FeatureFlagsService implements OnModuleInit {
   constructor(
     @Inject(CACHE_SERVICE) private readonly cache: ICacheService,
-  ) {}
+  ) { }
 
   // On startup, warm the cache from DB (done by the module that has DB access)
-  onModuleInit() {}
+  onModuleInit() { }
 
   async isEnabled(key: string): Promise<boolean> {
     const cached = await this.cache.get<boolean>(CacheKeys.featureFlag(key));
