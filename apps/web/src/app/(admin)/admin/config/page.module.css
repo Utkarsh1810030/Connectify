@@ -1,0 +1,148 @@
+.page {
+  max-width: 720px;
+}
+
+.pageHeader {
+  margin-bottom: 2rem;
+}
+
+.pageTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.4rem;
+}
+
+.pageDesc {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.configList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.configRow {
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: #fff;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.configRow:last-child {
+  border-bottom: none;
+}
+
+.configMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 200px;
+}
+
+.configKey {
+  font-family: monospace;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.configDesc {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.valueRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.configValue {
+  font-family: monospace;
+  font-size: 0.85rem;
+  background: #f9fafb;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  color: #374151;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.editRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.editInput {
+  font-family: monospace;
+  font-size: 0.875rem;
+  border: 1.5px solid #7c3aed;
+  border-radius: 6px;
+  padding: 0.35rem 0.6rem;
+  outline: none;
+  flex: 1;
+  max-width: 300px;
+}
+
+.editBtn {
+  background: none;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  color: #374151;
+  cursor: pointer;
+}
+
+.editBtn:hover {
+  background: #f9fafb;
+}
+
+.saveBtn {
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancelBtn {
+  background: none;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.empty {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  padding: 2rem 0;
+  text-align: center;
+}

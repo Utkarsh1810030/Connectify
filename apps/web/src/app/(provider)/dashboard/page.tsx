@@ -1,5 +1,5 @@
 'use client';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import styles from './page.module.css';
@@ -13,6 +13,8 @@ const KYC_BADGE: Record<string, { label: string; bg: string; color: string }> = 
 };
 
 export default function ProviderDashboardPage() {
+  const qc = useQueryClient();
+
   const { data: profile, isLoading } = useQuery<ProviderProfile>({
     queryKey: ['provider', 'me'],
     queryFn: () => api.get('/providers/me').then(r => r.data),
@@ -27,6 +29,22 @@ export default function ProviderDashboardPage() {
   const { data: sessions } = useQuery({
     queryKey: ['sessions', 'as-provider'],
     queryFn: () => api.get('/sessions/as-provider?limit=5').then(r => r.data),
+    refetchInterval: 15000,
+  });
+
+  const toggleOnline = useMutation({
+    mutationFn: (isOnline: boolean) => api.patch('/providers/online', { isOnline }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['provider', 'me'] }),
+  });
+
+  const acceptSession = useMutation({
+    mutationFn: (id: string) => api.post(`/sessions/${id}/accept`),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['sessions', 'as-provider'] }),
+  });
+
+  const declineSession = useMutation({
+    mutationFn: (id: string) => api.post(`/sessions/${id}/decline`),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['sessions', 'as-provider'] }),
   });
 
   if (isLoading) return <div className={styles.state}>Loading...</div>;
@@ -37,8 +55,9 @@ export default function ProviderDashboardPage() {
     </div>
   );
 
-  const recentSessions: any[] = sessions?.data ?? [];
-  const totalEarned = recentSessions.reduce((sum: number, s: any) => sum + Number(s.providerEarning ?? 0), 0);
+  const allSessions: any[] = sessions?.data ?? [];
+  const pendingSessions = allSessions.filter((s: any) => s.status === 'pending');
+  const recentSessions = allSessions.filter((s: any) => s.status !== 'pending').slice(0, 5);
 
   return (
     <div className={styles.page}>
@@ -58,7 +77,42 @@ export default function ProviderDashboardPage() {
             </span>
           )}
         </div>
+        <button
+          className={profile.isOnline ? styles.goOfflineBtn : styles.goOnlineBtn}
+          disabled={toggleOnline.isPending}
+          onClick={() => toggleOnline.mutate(!profile.isOnline)}
+        >
+          {toggleOnline.isPending ? '...' : profile.isOnline ? 'Go Offline' : 'Go Online'}
+        </button>
       </div>
+
+      {pendingSessions.length > 0 && (
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <h2>Incoming Requests <span className={styles.requestCount}>{pendingSessions.length}</span></h2>
+          </div>
+          {pendingSessions.map((s: any) => (
+            <div key={s.id} className={styles.requestRow}>
+              <div>
+                <span className={styles.sessionType}>{s.type}</span>
+                <span className={styles.sessionRate}> · ₹{Number(s.ratePerMin).toFixed(0)}/min</span>
+              </div>
+              <div className={styles.requestActions}>
+                <button
+                  className={styles.acceptBtn}
+                  disabled={acceptSession.isPending}
+                  onClick={() => acceptSession.mutate(s.id)}
+                >Accept</button>
+                <button
+                  className={styles.declineBtn}
+                  disabled={declineSession.isPending}
+                  onClick={() => declineSession.mutate(s.id)}
+                >Decline</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className={styles.statsGrid}>
         <div className={styles.statCard}>

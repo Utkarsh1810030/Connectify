@@ -108,6 +108,78 @@ describe('SessionsService', () => {
     });
   });
 
+  describe('accept', () => {
+    const pendingSession = { ...activeSession, status: 'pending', type: 'chat', agoraChannelId: null };
+
+    it('accepts a pending chat session and starts billing', async () => {
+      mockRepo.findOne
+        .mockResolvedValueOnce(pendingSession)
+        .mockResolvedValueOnce({ ...pendingSession, status: 'active' });
+      mockBillingEngine.startBilling.mockResolvedValue(undefined);
+
+      const result = await service.accept('sess1', 'prov1');
+
+      expect(mockRepo.update).toHaveBeenCalledWith('sess1', expect.objectContaining({ status: 'active' }));
+      expect(mockBillingEngine.startBilling).toHaveBeenCalledWith(expect.objectContaining({ sessionId: 'sess1' }));
+      expect(mockEventBus.emit).toHaveBeenCalledWith('session.accepted', expect.objectContaining({ sessionId: 'sess1' }));
+      expect(result.status).toBe('active');
+    });
+
+    it('accepts a pending voice session and generates Agora token', async () => {
+      const voiceSession = { ...pendingSession, type: 'voice' };
+      mockRepo.findOne
+        .mockResolvedValueOnce(voiceSession)
+        .mockResolvedValueOnce({ ...voiceSession, status: 'active', agoraChannelId: 'ch1' });
+      mockCallingService.createChannel.mockResolvedValue('ch1');
+      mockCallingService.generateToken.mockResolvedValue('agora-token-xyz');
+      mockBillingEngine.startBilling.mockResolvedValue(undefined);
+
+      const result = await service.accept('sess1', 'prov1') as any;
+
+      expect(mockCallingService.createChannel).toHaveBeenCalledWith('sess1');
+      expect(mockCallingService.generateToken).toHaveBeenCalledWith('ch1', 'prov1', 'publisher');
+      expect(result.agoraToken).toBe('agora-token-xyz');
+    });
+
+    it('throws when provider is not the session provider', async () => {
+      mockRepo.findOne.mockResolvedValue(pendingSession);
+      await expect(service.accept('sess1', 'wrong-prov')).rejects.toThrow(BadRequestException);
+    });
+
+    it('throws when session is not pending', async () => {
+      mockRepo.findOne.mockResolvedValue(activeSession);
+      await expect(service.accept('sess1', 'prov1')).rejects.toThrow(BadRequestException);
+    });
+  });
+
+  describe('decline', () => {
+    const pendingSession = { ...activeSession, status: 'pending', type: 'chat' };
+
+    it('declines a pending session and emits declined event', async () => {
+      mockRepo.findOne
+        .mockResolvedValueOnce(pendingSession)
+        .mockResolvedValueOnce({ ...pendingSession, status: 'cancelled', endReason: 'provider_declined' });
+
+      const result = await service.decline('sess1', 'prov1');
+
+      expect(mockRepo.update).toHaveBeenCalledWith('sess1', expect.objectContaining({
+        status: 'cancelled', endReason: 'provider_declined',
+      }));
+      expect(mockEventBus.emit).toHaveBeenCalledWith('session.declined', expect.objectContaining({ sessionId: 'sess1' }));
+      expect(result.status).toBe('cancelled');
+    });
+
+    it('throws when provider is not the session provider', async () => {
+      mockRepo.findOne.mockResolvedValue(pendingSession);
+      await expect(service.decline('sess1', 'wrong-prov')).rejects.toThrow(BadRequestException);
+    });
+
+    it('throws when session is not pending', async () => {
+      mockRepo.findOne.mockResolvedValue(activeSession);
+      await expect(service.decline('sess1', 'prov1')).rejects.toThrow(BadRequestException);
+    });
+  });
+
   describe('findById', () => {
     it('throws NotFoundException when session missing', async () => {
       mockRepo.findOne.mockResolvedValue(null);

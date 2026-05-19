@@ -51,8 +51,32 @@ class SocketService {
     this.chatSocket?.on('typing', cb);
   }
 
-  onSessionEnd(cb: () => void) {
-    this.sessionSocket?.on('session_ended', cb);
+  onSessionRequest(cb: (data: { sessionId: string; type: string; ratePerMin: number }) => void) {
+    this.sessionSocket?.on('session_request', cb);
+  }
+
+  offSessionRequest() {
+    this.sessionSocket?.off('session_request');
+  }
+
+  onSessionAccepted(cb: (data: { sessionId: string }) => void) {
+    this.sessionSocket?.on('session_accepted', cb);
+  }
+
+  onSessionDeclined(cb: (data: { sessionId: string }) => void) {
+    this.sessionSocket?.on('session_declined', cb);
+  }
+
+  onSessionCancelled(cb: (data: { sessionId: string; reason: string }) => void) {
+    this.sessionSocket?.on('session_cancelled', cb);
+  }
+
+  emitAcceptSession(sessionId: string) {
+    this.sessionSocket?.emit('accept_session', { sessionId });
+  }
+
+  emitDeclineSession(sessionId: string) {
+    this.sessionSocket?.emit('decline_session', { sessionId });
   }
 
   onLowBalance(cb: () => void) {
@@ -65,6 +89,10 @@ class SocketService {
 
   emitResumeSession(sessionId: string) {
     this.sessionSocket?.emit('resume_session', { sessionId });
+  }
+
+  onSessionEnd(cb: () => void) {
+    this.sessionSocket?.on('session_ended', cb);
   }
 
   onSessionPaused(cb: () => void) {

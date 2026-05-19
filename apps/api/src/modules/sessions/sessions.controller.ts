@@ -29,6 +29,16 @@ export class SessionsController {
     return this.sessionsService.resume(id, user.id);
   }
 
+  @Post(':id/accept')
+  accept(@Param('id') id: string, @CurrentUser() user: { id: string }) {
+    return this.sessionsService.accept(id, user.id);
+  }
+
+  @Post(':id/decline')
+  decline(@Param('id') id: string, @CurrentUser() user: { id: string }) {
+    return this.sessionsService.decline(id, user.id);
+  }
+
   @Post(':id/end')
   end(@Param('id') id: string) {
     return this.sessionsService.end(id, 'user_ended');

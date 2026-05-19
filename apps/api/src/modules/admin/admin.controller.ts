@@ -73,4 +73,18 @@ export class AdminController {
       limit: limit ? parseInt(limit, 10) : undefined,
     });
   }
+
+  @Get('config')
+  getConfig() {
+    return this.adminService.getConfig();
+  }
+
+  @Patch('config/:key')
+  setConfig(
+    @Param('key') key: string,
+    @Body('value') value: any,
+    @Body('description') description?: string,
+  ) {
+    return this.adminService.setConfig(key, value, description);
+  }
 }

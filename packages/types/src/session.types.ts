@@ -11,6 +11,8 @@ export type SessionStatus =
 export type SessionEndReason =
   | 'user_ended'
   | 'provider_ended'
+  | 'provider_declined'
+  | 'no_response'
   | 'low_balance'
   | 'moderation'
   | 'timeout'

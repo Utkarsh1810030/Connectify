@@ -11,10 +11,11 @@ import { NotificationsModule } from '../notifications/notifications.module';
 import { UserEntity } from '../users/entities/user.entity';
 import { ProviderProfileEntity } from '../providers/entities/provider-profile.entity';
 import { PayoutEntity } from '../billing/entities/payout.entity';
+import { PlatformConfigEntity } from './entities/platform-config.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity, ProviderProfileEntity, PayoutEntity]),
+    TypeOrmModule.forFeature([UserEntity, ProviderProfileEntity, PayoutEntity, PlatformConfigEntity]),
     UsersModule, ProvidersModule, SessionsModule, ModerationModule, BillingModule, NotificationsModule,
   ],
   providers: [AdminService],

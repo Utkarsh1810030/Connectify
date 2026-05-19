@@ -37,7 +37,61 @@ export class SessionsService {
     if (balance < ratePerMin * 2) throw new BadRequestException('Insufficient balance. Please top up your wallet.');
 
     const session = this.repo.create({ userId, providerId: dto.providerId, type: dto.type, ratePerMin, status: 'pending' });
-    return this.repo.save(session);
+    const saved = await this.repo.save(session);
+
+    this.eventBus.emit('session.created', {
+      sessionId: saved.id, userId, providerId: dto.providerId,
+      type: dto.type, ratePerMin, providerName: provider.displayName,
+    });
+
+    // Auto-cancel if provider does not respond within 60 s (in-memory; use Redis job at scale)
+    setTimeout(async () => {
+      try {
+        const s = await this.repo.findOne({ where: { id: saved.id } });
+        if (s?.status === 'pending') {
+          await this.repo.update(saved.id, { status: 'cancelled', endedAt: new Date(), endReason: 'no_response' });
+          this.eventBus.emit('session.cancelled', { sessionId: saved.id, reason: 'no_response', userId });
+        }
+      } catch { }
+    }, 60_000);
+
+    return saved;
+  }
+
+  async accept(sessionId: string, providerId: string): Promise<SessionEntity & { agoraToken?: string }> {
+    const session = await this.findById(sessionId);
+    if (session.providerId !== providerId) throw new BadRequestException('Not your session');
+    if (session.status !== 'pending') throw new BadRequestException('Session is not pending');
+
+    let agoraChannelId: string | null = null;
+    let agoraToken: string | null = null;
+    if (session.type !== 'chat') {
+      agoraChannelId = await this.callingService.createChannel(sessionId);
+      agoraToken = await this.callingService.generateToken(agoraChannelId, providerId, 'publisher');
+    }
+
+    const now = new Date();
+    await this.repo.update(sessionId, { status: 'active', startedAt: now, agoraChannelId });
+
+    const activeState: ActiveSessionState = {
+      sessionId, userId: session.userId, providerId,
+      type: session.type as any, ratePerMin: Number(session.ratePerMin),
+      startedAt: now.getTime(), lastBilledAt: now.getTime(),
+      agoraChannelId, agoraToken,
+    };
+    await this.billingEngine.startBilling(activeState);
+    this.eventBus.emit('session.accepted', { sessionId, userId: session.userId, providerId });
+
+    return { ...(await this.findById(sessionId)), agoraToken: agoraToken ?? undefined };
+  }
+
+  async decline(sessionId: string, providerId: string): Promise<SessionEntity> {
+    const session = await this.findById(sessionId);
+    if (session.providerId !== providerId) throw new BadRequestException('Not your session');
+    if (session.status !== 'pending') throw new BadRequestException('Session is not pending');
+    await this.repo.update(sessionId, { status: 'cancelled', endedAt: new Date(), endReason: 'provider_declined' });
+    this.eventBus.emit('session.declined', { sessionId, userId: session.userId, providerId });
+    return this.findById(sessionId);
   }
 
   async start(sessionId: string, userId: string): Promise<SessionEntity & { agoraToken?: string }> {

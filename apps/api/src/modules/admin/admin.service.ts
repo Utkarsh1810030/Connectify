@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { UserEntity } from '../users/entities/user.entity';
 import { ProviderProfileEntity } from '../providers/entities/provider-profile.entity';
 import { PayoutEntity } from '../billing/entities/payout.entity';
+import { PlatformConfigEntity } from './entities/platform-config.entity';
 
 @Injectable()
 export class AdminService {
@@ -20,6 +21,7 @@ export class AdminService {
     @InjectRepository(UserEntity) private readonly userRepo: Repository<UserEntity>,
     @InjectRepository(ProviderProfileEntity) private readonly providerRepo: Repository<ProviderProfileEntity>,
     @InjectRepository(PayoutEntity) private readonly payoutRepo: Repository<PayoutEntity>,
+    @InjectRepository(PlatformConfigEntity) private readonly configRepo: Repository<PlatformConfigEntity>,
   ) { }
 
   async listUsers(query: { page?: number; limit?: number; search?: string }) {
@@ -70,5 +72,14 @@ export class AdminService {
 
   async processPayout(id: string, bankReference: string): Promise<void> {
     await this.payoutRepo.update(id, { status: 'completed', bankReference, processedAt: new Date() });
+  }
+
+  async getConfig(): Promise<PlatformConfigEntity[]> {
+    return this.configRepo.find({ order: { key: 'ASC' } });
+  }
+
+  async setConfig(key: string, value: any, description?: string): Promise<PlatformConfigEntity> {
+    await this.configRepo.upsert({ key, value, description: description ?? null }, ['key']);
+    return this.configRepo.findOneOrFail({ where: { key } });
   }
 }

@@ -11,6 +11,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/admin/sessions" className={styles.navItem}>🎯 Sessions</Link>
           <Link href="/admin/payouts" className={styles.navItem}>💸 Payouts</Link>
           <Link href="/admin/moderation" className={styles.navItem}>🛡️ Moderation</Link>
+          <Link href="/admin/config" className={styles.navItem}>⚙️ Config</Link>
         </nav>
       </aside>
       <main className={styles.content}>{children}</main>
