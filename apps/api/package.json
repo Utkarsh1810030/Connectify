@@ -9,6 +9,9 @@
     "lint": "eslint \"{src,test}/**/*.ts\"",
     "typecheck": "tsc --noEmit",
     "test": "jest",
+    "migration:generate": "ts-node -r tsconfig-paths/register -e \"require('typeorm/cli').cli(['migration:generate', 'src/infrastructure/database/postgres/migrations/migration', '-d', 'src/infrastructure/database/postgres/datasource.ts'])\"",
+    "migration:run": "ts-node -r tsconfig-paths/register -e \"require('typeorm/cli').cli(['migration:run', '-d', 'src/infrastructure/database/postgres/datasource.ts'])\"",
+    "migration:revert": "ts-node -r tsconfig-paths/register -e \"require('typeorm/cli').cli(['migration:revert', '-d', 'src/infrastructure/database/postgres/datasource.ts'])\"",
     "test:e2e": "jest --config test/jest-e2e.json"
   },
   "dependencies": {

@@ -1,25 +1,21 @@
 import { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import { useSessionStore } from '@/stores/session.store';
 import { socketService } from '@/services/socket';
 import { api } from '@/services/api';
+import { agoraService, RtcSurfaceView, VideoSourceType } from '@/services/agora';
 
 export default function VideoSessionScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { endSession } = useSessionStore();
+
   const [elapsed, setElapsed] = useState(0);
   const [muted, setMuted] = useState(false);
   const [cameraOff, setCameraOff] = useState(false);
-
-  useEffect(() => {
-    socketService.onSessionEnd(() => handleEnd(false));
-    socketService.onLowBalance(() =>
-      Alert.alert('Low Balance', 'Your wallet balance is running low.')
-    );
-    const timer = setInterval(() => setElapsed(prev => prev + 1), 1000);
-    return () => clearInterval(timer);
-  }, []);
+  const [remoteUid, setRemoteUid] = useState<number | null>(null);
+  const [initializing, setInitializing] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const formatTime = (secs: number) => {
     const m = Math.floor(secs / 60).toString().padStart(2, '0');
@@ -28,43 +24,118 @@ export default function VideoSessionScreen() {
   };
 
   const handleEnd = useCallback(async (userInitiated = true) => {
+    await agoraService.leave();
     if (userInitiated) {
-      await api.post(`/sessions/${id}/end`).catch(() => { });
+      await api.post(`/sessions/${id}/end`).catch(() => {});
     }
     endSession();
     router.replace('/(modals)/rate');
   }, [id, endSession]);
 
+  useEffect(() => {
+    agoraService.setCallbacks({
+      onRemoteJoined: (uid) => setRemoteUid(uid),
+      onRemoteLeft: () => setRemoteUid(null),
+      onCallEnded: () => handleEnd(false),
+    });
+
+    socketService.onSessionEnd(() => handleEnd(false));
+    socketService.onLowBalance(() =>
+      Alert.alert('Low Balance', 'Your wallet balance is running low.')
+    );
+
+    const timer = setInterval(() => setElapsed(prev => prev + 1), 1000);
+
+    async function init() {
+      try {
+        const config = await agoraService.fetchCallConfig(id as string);
+        await agoraService.init(config, true);
+      } catch (e: any) {
+        setError(e?.message ?? 'Failed to connect call');
+      } finally {
+        setInitializing(false);
+      }
+    }
+
+    init();
+
+    return () => {
+      clearInterval(timer);
+      agoraService.leave().catch(() => {});
+    };
+  }, [id, handleEnd]);
+
+  const toggleMute = () => {
+    const next = !muted;
+    setMuted(next);
+    agoraService.muteLocalAudio(next);
+  };
+
+  const toggleCamera = () => {
+    const next = !cameraOff;
+    setCameraOff(next);
+    agoraService.muteLocalVideo(next);
+  };
+
+  if (error) {
+    return (
+      <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
+        <Text style={styles.errorText}>{error}</Text>
+        <TouchableOpacity style={styles.retryBtn} onPress={() => router.back()}>
+          <Text style={{ color: '#fff' }}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      {/* Remote video placeholder — Agora RtcSurfaceView mounts here */}
+      {/* Remote video */}
       <View style={styles.remoteVideo}>
-        <Text style={styles.remoteLabel}>Remote Video</Text>
+        {initializing ? (
+          <ActivityIndicator size="large" color="#7c3aed" />
+        ) : remoteUid != null ? (
+          <RtcSurfaceView
+            style={StyleSheet.absoluteFill}
+            canvas={{ uid: remoteUid, sourceType: VideoSourceType.VideoSourceRemote }}
+          />
+        ) : (
+          <Text style={styles.remoteLabel}>⏳ Waiting for other party...</Text>
+        )}
       </View>
 
-      {/* Local video preview */}
+      {/* Local video preview (PiP) */}
       <View style={styles.localVideo}>
-        <Text style={styles.localLabel}>{cameraOff ? '📷 Off' : 'You'}</Text>
+        {cameraOff ? (
+          <Text style={styles.localLabel}>📷 Off</Text>
+        ) : (
+          <RtcSurfaceView
+            style={StyleSheet.absoluteFill}
+            canvas={{ uid: 0, sourceType: VideoSourceType.VideoSourceCamera }}
+          />
+        )}
       </View>
 
       <Text style={styles.timer}>{formatTime(elapsed)}</Text>
 
       <View style={styles.controls}>
-        <TouchableOpacity style={styles.controlBtn} onPress={() => setMuted(m => !m)}>
+        <TouchableOpacity style={styles.controlBtn} onPress={toggleMute}>
           <Text style={styles.controlIcon}>{muted ? '🔇' : '🎤'}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.controlBtn, styles.endCallBtn]}
-          onPress={() => Alert.alert('End Call?', undefined, [
-            { text: 'End', style: 'destructive', onPress: () => handleEnd(true) },
-            { text: 'Cancel', style: 'cancel' },
-          ])}
+          onPress={() =>
+            Alert.alert('End Call?', undefined, [
+              { text: 'End', style: 'destructive', onPress: () => handleEnd(true) },
+              { text: 'Cancel', style: 'cancel' },
+            ])
+          }
         >
           <Text style={styles.controlIcon}>📵</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.controlBtn} onPress={() => setCameraOff(c => !c)}>
+        <TouchableOpacity style={styles.controlBtn} onPress={toggleCamera}>
           <Text style={styles.controlIcon}>{cameraOff ? '📷' : '🎥'}</Text>
         </TouchableOpacity>
       </View>
@@ -84,10 +155,11 @@ const styles = StyleSheet.create({
     height: 140,
     backgroundColor: '#222',
     borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
+    overflow: 'hidden',
     borderWidth: 2,
     borderColor: '#444',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   localLabel: { color: '#aaa', fontSize: 12 },
   timer: {
@@ -112,7 +184,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 24,
   },
-  controlBtn: { width: 60, height: 60, borderRadius: 30, backgroundColor: 'rgba(255,255,255,0.2)', alignItems: 'center', justifyContent: 'center' },
+  controlBtn: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   endCallBtn: { backgroundColor: '#ef4444' },
   controlIcon: { fontSize: 24 },
+  errorText: { color: '#ef4444', fontSize: 16, marginBottom: 20, textAlign: 'center', paddingHorizontal: 32 },
+  retryBtn: { backgroundColor: '#7c3aed', paddingHorizontal: 24, paddingVertical: 12, borderRadius: 8 },
 });

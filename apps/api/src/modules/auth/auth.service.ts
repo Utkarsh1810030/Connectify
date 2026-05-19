@@ -29,9 +29,36 @@ export class AuthService {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     await this.cache.set(`otp:${normalized}`, otp, this.OTP_TTL);
     await this.cache.set(rateLimitKey, '1', this.OTP_RATE_LIMIT_TTL);
-    // TODO: integrate MSG91 SDK here
-    // For dev, log the OTP
-    console.log(`[DEV] OTP for ${normalized}: ${otp}`);
+
+    const authKey = this.config.get<string>('MSG91_AUTH_KEY');
+    const templateId = this.config.get<string>('MSG91_TEMPLATE_ID');
+
+    if (authKey && templateId) {
+      await this.sendMsg91Otp(normalized, otp, authKey, templateId);
+    } else {
+      console.log(`[DEV] OTP for ${normalized}: ${otp}`);
+    }
+  }
+
+  private async sendMsg91Otp(phone: string, otp: string, authKey: string, templateId: string): Promise<void> {
+    const digits = phone.replace(/^\+/, '');
+    const url = 'https://api.msg91.com/api/v5/otp';
+    const payload = {
+      template_id: templateId,
+      mobile: digits,
+      authkey: authKey,
+      otp,
+    };
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!response.ok) {
+      const body = await response.text();
+      console.error(`[MSG91] OTP send failed: ${response.status} ${body}`);
+      // Don't throw — the OTP is cached; SMS failure shouldn't block auth
+    }
   }
 
   async verifyOtp(phone: string, otp: string): Promise<AuthTokens> {
